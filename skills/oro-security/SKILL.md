@@ -1,6 +1,6 @@
 ---
 name: oro-security
-description: "OroCommerce v6.1 ACL, permissions, and access control configuration. Use this skill when configuring entity permissions (acls.yml), setting up ownership types, using Acl/AclAncestor PHP attributes on controllers, creating custom permissions, implementing field-level ACL, writing access rules for query filtering, or debugging permission issues. Triggers for 'ACL', 'permissions', 'access control', 'ownership', 'security', 'acls.yml', 'field ACL', 'access rules', or any OroCommerce authorization task."
+description: "OroCommerce v6.1 ACL, permissions, and access control configuration. This skill should be used when configuring entity permissions (acls.yml), setting up ownership types, using Acl/AclAncestor PHP attributes on controllers, creating custom permissions, implementing field-level ACL, writing access rules for query filtering, or debugging permission issues. Relevant when the user mentions 'ACL', 'permissions', 'access control', 'ownership', 'security', 'acls.yml', 'field ACL', 'access rules', or any OroCommerce authorization task."
 ---
 
 # OroCommerce v6.1 Security & ACL Configuration Skill

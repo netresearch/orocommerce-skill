@@ -245,23 +245,38 @@ Check:
 Access rules filter queries based on complex logic beyond ownership. Example: allow viewing documents created after a date:
 
 ```php
-class DocumentDateAccessRule implements AccessRuleInterface
+use Oro\Bundle\SecurityBundle\AccessRule\AccessRuleInterface;
+use Oro\Bundle\SecurityBundle\AccessRule\Criteria;
+use Oro\Bundle\SecurityBundle\AccessRule\Expr\Comparison;
+use Oro\Bundle\SecurityBundle\AccessRule\Expr\Path;
+
+class DocumentAccessRule implements AccessRuleInterface
 {
-    public function isApplicable($entity, $permission): bool
+    #[\Override]
+    public function isApplicable(Criteria $criteria): bool
     {
-        return $entity === Document::class && $permission === 'VIEW';
+        return true;
     }
 
-    public function apply(QueryBuilder $qb, $permission): void
+    #[\Override]
+    public function process(Criteria $criteria): void
     {
-        $cutoff = new \DateTime('2025-01-01');
-        $qb->andWhere('d.createdAt > :cutoff')
-           ->setParameter('cutoff', $cutoff);
+        $criteria->andExpression(
+            new Comparison(new Path('owner'), Comparison::EQ, $currentUserId)
+        );
     }
 }
 ```
 
-This rule is applied automatically to all Document VIEW queries.
+Register with the correct service tag:
+
+```yaml
+Acme\Bundle\DemoBundle\AccessRule\DocumentAccessRule:
+    tags:
+        - { name: oro_security.access_rule, type: ORM, entityClass: Acme\Bundle\DemoBundle\Entity\Document }
+```
+
+This rule is applied automatically to all Document queries.
 
 Access rules and role-based permissions compose: both conditions must be satisfied.
 

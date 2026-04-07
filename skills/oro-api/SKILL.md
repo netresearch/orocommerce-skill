@@ -1,6 +1,6 @@
 ---
 name: oro-api
-description: "OroCommerce v6.1 REST API configuration and development. Use this skill when exposing entities via API, configuring api.yml or api_frontend.yml, creating custom API processors, setting up filters/sorters/subresources, or working with JSON:API endpoints. Triggers for 'API endpoint', 'expose entity via API', 'api.yml', 'REST API', 'JSON:API', 'storefront API', 'API processor', or any OroCommerce API development task."
+description: "OroCommerce v6.1 REST API configuration and development. This skill should be used when exposing entities via API, configuring api.yml or api_frontend.yml, creating custom API processors, setting up filters/sorters/subresources, or working with JSON:API endpoints. Relevant when the user mentions 'API endpoint', 'expose entity via API', 'api.yml', 'REST API', 'JSON:API', 'storefront API', 'API processor', or any OroCommerce API development task."
 ---
 
 # OroCommerce v6.1 REST API Configuration & Development

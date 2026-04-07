@@ -240,7 +240,7 @@ Retrieve entity from database.
 
 ```yaml
 - '@fetch_entity':
-    entity_name: 'AcmeDemoBundle:Document'
+    entity_name: Acme\Bundle\DemoBundle\Entity\Document
     where:
         id: $parent_document_id
     attribute: $.parent
@@ -252,7 +252,7 @@ Retrieve collection of entities.
 
 ```yaml
 - '@fetch_entities':
-    entity_name: 'AcmeDemoBundle:Document'
+    entity_name: Acme\Bundle\DemoBundle\Entity\Document
     where:
         status: approved
     order_by:

@@ -1,6 +1,6 @@
 ---
 name: oro-integration
-description: "OroCommerce v6.1 integration development — import/export, message queue, connectors, and external system communication. Use this skill when creating import/export processors, setting up message queue consumers/producers, building integration channels and transports, configuring cron jobs, handling webhooks, or connecting Oro to external systems (ERP, PIM, payment, shipping). Triggers for 'import', 'export', 'message queue', 'consumer', 'producer', 'integration channel', 'connector', 'cron job', 'webhook', 'async processing', or any OroCommerce integration task."
+description: "OroCommerce v6.1 integration development — import/export, message queue, connectors, and external system communication. This skill should be used when creating import/export processors, setting up message queue consumers/producers, building integration channels and transports, configuring cron jobs, handling webhooks, or connecting Oro to external systems (ERP, PIM, payment, shipping). Relevant when the user mentions 'import', 'export', 'message queue', 'consumer', 'producer', 'integration channel', 'connector', 'cron job', 'webhook', 'async processing', or any OroCommerce integration task."
 ---
 
 # OroCommerce v6.1 Integration Development

@@ -1,6 +1,6 @@
 ---
 name: oro-entity
-description: "OroCommerce v6.1 entity creation, extension, and migration patterns. Use this skill when creating new Doctrine entities, extending existing Oro core entities (like Product, Order, Customer), writing schema migrations, configuring entity ownership (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL), using ConfigField attributes, creating enum entities, or working with ExtendEntity traits. Triggers for any 'create entity', 'add field to Product', 'write migration', 'extend entity', 'custom field', or entity ownership questions in OroCommerce context."
+description: "OroCommerce v6.1 entity creation, extension, and migration patterns. This skill should be used when creating new Doctrine entities, extending existing Oro core entities (like Product, Order, Customer), writing schema migrations, configuring entity ownership (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL), using ConfigField attributes, creating enum entities, or working with ExtendEntity traits. Relevant when the user mentions 'create entity', 'add field to Product', 'write migration', 'extend entity', 'custom field', or entity ownership questions in OroCommerce context."
 ---
 
 # OroCommerce v6.1 Entity Development
@@ -398,7 +398,7 @@ php bin/console doctrine:mapping:info
 
 1. **Missing organization field on USER/BUSINESS_UNIT ownership** — Access control fails silently
 2. **Using old `@ORM\` annotations instead of `#[ORM\...]` attributes** — Doctrine won't recognize them
-3. **Forgetting `#[\Override]` on repository query methods** — Less critical but improves IDE support
+3. **Misusing `#[\Override]`** — Use `#[\Override]` only on methods that genuinely implement an interface or override a parent class method (e.g., `setExtendExtension` from `ExtendExtensionAwareInterface`). Do NOT add it to custom repository methods like `findByOrganization()` — PHP 8.3+ will throw a fatal error
 4. **Creating fields with nullable=true when ownership requires them** — Database constraints fail on insert
 5. **Not running `oro:entity-extend:cache:clear`** — ConfigField changes won't appear in the UI
 

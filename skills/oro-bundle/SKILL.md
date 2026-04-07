@@ -1,6 +1,6 @@
 ---
 name: oro-bundle
-description: "OroCommerce v6.1 bundle scaffolding, registration, and structure. Use this skill whenever creating a new Oro bundle, registering bundles, setting up DependencyInjection extensions, configuring services.yml, adding translations, navigation menus, or system configuration. Also triggers for bundle-level boilerplate like compiler passes, event subscriber registration, and console commands. Activate for any 'create a bundle', 'scaffold', 'new Oro module', or general OroCommerce project structure questions."
+description: "OroCommerce v6.1 bundle scaffolding, registration, and structure. This skill should be used when creating a new Oro bundle, registering bundles, setting up DependencyInjection extensions, configuring services.yml, adding translations, navigation menus, or system configuration. Also relevant for bundle-level boilerplate like compiler passes, event subscriber registration, and console commands. Also applies to 'create a bundle', 'scaffold', 'new Oro module', or general OroCommerce project structure questions."
 ---
 
 # OroCommerce v6.1 Bundle Development

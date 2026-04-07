@@ -1,6 +1,6 @@
 ---
 name: oro-datagrid
-description: "OroCommerce v6.1 datagrid configuration and customization. Use this skill when creating new datagrids, adding columns to existing grids, configuring filters, sorters, actions, mass actions, inline editing, or extending core grids (like product-grid, order-grid, customer-grid). Triggers for any 'create a grid', 'add column', 'grid filter', 'datagrid', 'data table', 'list view', or grid customization in OroCommerce."
+description: "OroCommerce v6.1 datagrid configuration and customization. This skill should be used when creating new datagrids, adding columns to existing grids, configuring filters, sorters, actions, mass actions, inline editing, or extending core grids (like product-grid, order-grid, customer-grid). Relevant when the user mentions 'create a grid', 'add column', 'grid filter', 'datagrid', 'data table', 'list view', or grid customization in OroCommerce."
 ---
 
 # OroCommerce v6.1 Datagrid Configuration & Customization
