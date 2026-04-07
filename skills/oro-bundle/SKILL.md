@@ -7,8 +7,6 @@ description: "Use when creating a new OroCommerce v6.1 bundle, registering bundl
 
 ## Bundle Directory Structure
 
-Create a standard bundle structure under `src/Vendor/Bundle/ModuleBundle/`:
-
 ```
 src/Acme/Bundle/DemoBundle/
 ├── AcmeDemoBundle.php
@@ -34,8 +32,6 @@ src/Acme/Bundle/DemoBundle/
 
 ## Bundle Class
 
-Create the bundle entry point extending `Bundle`:
-
 ```php
 <?php
 namespace Acme\Bundle\DemoBundle;
@@ -51,11 +47,9 @@ class AcmeDemoBundle extends Bundle
 }
 ```
 
-The `getPath()` method in v6.1 replaces the legacy container-relative path logic. It enables the kernel to locate your bundle's resources automatically.
+The `getPath()` method in v6.1 replaces legacy container-relative path logic, enabling the kernel to locate bundle resources automatically.
 
 ## DependencyInjection Extension
-
-Create `DependencyInjection/AcmeDemoExtension.php` following the v6.1 pattern with `#[\Override]` attributes:
 
 ```php
 <?php
@@ -86,7 +80,7 @@ class AcmeDemoExtension extends Extension
 }
 ```
 
-Use `#[\Override]` attributes (Symfony 6.2+, standard in v6.1) — they catch method signature mismatches and improve IDE support.
+Use `#[\Override]` attributes (standard in v6.1) — they catch method signature mismatches at compile time.
 
 ## Bundle Registration
 
@@ -97,248 +91,45 @@ bundles:
   - { name: Acme\Bundle\DemoBundle\AcmeDemoBundle }
 ```
 
-**Priority guidance (lower loads first):**
-- Negative values: Core/foundational bundles (e.g., FrameworkBundle: -255)
-- 0: Default — correct for most custom bundles
-- Positive values: Loads later, can override config from earlier bundles
-
-Omit `priority` for custom bundles unless you need to load after a specific Oro bundle to override its configuration.
+**Priority:** Lower loads first. Omit `priority` (defaults to 0) for custom bundles unless you need to override config from a specific Oro bundle.
 
 ## Service Configuration
 
-Define services in `Resources/config/services.yml`:
-
 ```yaml
 services:
-  # Basic service
   acme_demo.my_service:
     class: Acme\Bundle\DemoBundle\Service\MyService
-    arguments: []
     public: false
 
-  # Tagged event listener
   acme_demo.event_listener.my_listener:
     class: Acme\Bundle\DemoBundle\EventListener\MyListener
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: onRequest }
     arguments:
       - '@logger'
-
-  # Command registration (auto-discovered in v6.1)
-  Acme\Bundle\DemoBundle\Command\DemoCommand:
-    tags:
-      - console.command
-
-  # Decorator pattern (common for extending Oro functionality)
-  acme_demo.decorated_service:
-    class: Acme\Bundle\DemoBundle\Service\DecoratedService
-    decorates: original_service_name
-    decoration_inner_name: original_service_name.inner
-    arguments:
-      - '@original_service_name.inner'
 ```
 
-**Why tagging matters:** Tags trigger compiler passes that register listeners, commands, and API endpoints. Check `debug:container` to verify tags were processed.
+Tags trigger compiler passes that register listeners, commands, and API endpoints. Verify with `debug:container acme_demo`.
 
-## Navigation Menu Configuration
-
-Create `Resources/config/navigation.yml` to add menu items:
-
-```yaml
-oro_navigation_elements:
-  acme_demo_menu:
-    type: group
-    label: acme_demo.navigation.main_menu
-    show_non_authorized: false
-    children:
-      acme_demo_list:
-        type: item
-        route: acme_demo_index
-        label: acme_demo.navigation.demo_list
-```
-
-Reference the menu in your Twig template with `{{ oro_menu_render('acme_demo_menu') }}`. Translation keys are resolved during rendering.
-
-## System Configuration
-
-Add admin settings via `Resources/config/system_configuration.yml`:
-
-```yaml
-system_configuration:
-  groups:
-    acme_demo_settings:
-      title: acme_demo.system_config.group_label
-      icon: fa-cog
-      children:
-        - acme_demo_connection_settings
-
-  fields:
-    demo_enabled:
-      data_type: boolean
-      type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
-      priority: 10
-      ui_only: true
-
-    demo_timeout:
-      data_type: integer
-      type: Symfony\Component\Form\Extension\Core\Type\IntegerType
-      options:
-        constraints:
-          - Range:
-              min: 1
-              max: 60
-
-  tree:
-    system_configuration:
-      platform:
-        integrations:
-          children:
-            - acme_demo_settings
-```
-
-Settings are accessible at `/admin/config/system` and retrieved via `ConfigProvider`:
-
-```php
-$apiKey = $this->configProvider->get('demo_api_key');
-```
-
-## Translation Files
-
-Create `Resources/translations/messages.en.yml`:
-
-```yaml
-acme_demo:
-  navigation:
-    main_menu: 'Demo Module'
-    demo_list: 'Demo Items'
-
-  system_config:
-    group_label: 'Demo Settings'
-
-  entity:
-    class_label: 'Demo'
-    class_plural_label: 'Demos'
-    id.label: 'ID'
-    name.label: 'Name'
-```
-
-Oro auto-discovers `.yml` translation files in `Resources/translations/`. For other languages, use `messages.fr.yml`, `messages.de.yml`, etc.
+See [bundle-patterns.md](references/bundle-patterns.md) for service decoration, compiler passes, event listeners, navigation menus, system configuration, and translations.
 
 ## Post-Installation Commands
 
-After bundle changes, run:
-
 ```bash
-# Clear Oro entity configuration cache (required for any service/config changes)
 php bin/console cache:clear
-
-# Verify services are registered (optional but recommended)
-php bin/console debug:container acme_demo
-
-# For database schema changes (covered in oro-entity skill)
-php bin/console doctrine:migrations:migrate
+php bin/console debug:container acme_demo  # Verify services registered
 ```
 
-Cache clear is **critical** — changes to bundles.yml, services.yml, or navigation.yml won't take effect until cache is cleared.
+Cache clear is **critical** — changes to `bundles.yml`, `services.yml`, or `navigation.yml` take effect only after clearing.
 
-## Extending Existing Bundles
+## Key Pitfalls
 
-### Service Decoration
-
-Wrap an existing service without modifying its definition:
-
-```yaml
-# In your services.yml
-acme_demo.decorated_service:
-  class: Acme\Bundle\DemoBundle\Service\EnhancedProductService
-  decorates: oro_product.service.product_service
-  decoration_inner_name: oro_product.service.product_service.inner
-  arguments:
-    - '@oro_product.service.product_service.inner'
-```
-
-Decoration is safer than dependency injection modification — it preserves the original service for other consumers.
-
-### Compiler Passes
-
-Collect tagged services into a registry using a compiler pass:
-
-```php
-namespace Acme\Bundle\DemoBundle\DependencyInjection\Compiler;
-
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-
-class RegisterHandlersPass implements CompilerPassInterface
-{
-    #[\Override]
-    public function process(ContainerBuilder $container): void
-    {
-        if (!$container->hasDefinition('acme_demo.handler_registry')) {
-            return;
-        }
-
-        $registry = $container->getDefinition('acme_demo.handler_registry');
-        foreach ($container->findTaggedServiceIds('acme_demo.handler') as $id => $tags) {
-            $registry->addMethodCall('addHandler', [new Reference($id)]);
-        }
-    }
-}
-```
-
-Register the pass in your bundle class's `build()` method:
-
-```php
-public function build(ContainerBuilder $container): void
-{
-    parent::build($container);
-    $container->addCompilerPass(new RegisterHandlersPass());
-}
-```
-
-### Event Listeners
-
-Use standard Doctrine lifecycle events for entity change hooks:
-
-```php
-namespace Acme\Bundle\DemoBundle\EventListener;
-
-use Doctrine\ORM\Event\PostPersistEventArgs;
-use Doctrine\ORM\Event\PostUpdateEventArgs;
-
-class DocumentChangeListener
-{
-    public function postPersist(PostPersistEventArgs $args): void
-    {
-        $entity = $args->getObject();
-        if (!$entity instanceof Document) {
-            return;
-        }
-        // React to new entity creation
-    }
-
-    public function postUpdate(PostUpdateEventArgs $args): void
-    {
-        $entity = $args->getObject();
-        if (!$entity instanceof Document) {
-            return;
-        }
-        // React to entity update
-    }
-}
-```
-
-Register with the `doctrine.event_listener` tag:
-
-```yaml
-Acme\Bundle\DemoBundle\EventListener\DocumentChangeListener:
-    tags:
-        - { name: doctrine.event_listener, event: postPersist }
-        - { name: doctrine.event_listener, event: postUpdate }
-```
+1. **Missing cache clear:** Bundle config changes (services, navigation, system config) are invisible until `cache:clear` runs. This is the most common "it doesn't work" cause.
+2. **Wrong extension alias:** The DI extension alias must match the bundle name convention (`acme_demo` for `AcmeDemoBundle`). A mismatch silently skips your `services.yml` loading.
+3. **Priority ordering confusion:** In `bundles.yml`, lower priority loads first (opposite of processor priority). Most custom bundles should omit priority entirely.
 
 ## See Also
 
-- `references/v6.1.md` — v6.1 specifics, migration checklist, and environment notes
-- `references/v7.0.md` — v7.0 changes (placeholder)
+- [bundle-patterns.md](references/bundle-patterns.md) — System config, navigation, translations, compiler passes, event listeners, service decoration
+- [v6.1.md](references/v6.1.md) — v6.1 specifics, migration checklist, and environment notes
+- [v7.0.md](references/v7.0.md) — v7.0 changes (placeholder)
