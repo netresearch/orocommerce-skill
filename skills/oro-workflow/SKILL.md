@@ -119,8 +119,6 @@ workflows:
 
 Preconditions block the transition if false. Actions execute only if the transition succeeds. See `references/condition-expressions.md` for full expression list.
 
-**Why this matters**: Decoupling definitions allows reusing the same logic across multiple workflows. Conditions prevent invalid state changes programmatically rather than relying on UI restrictions alone.
-
 ## Transition Forms
 
 Collect user input during transitions by adding a form to the transition. The form data becomes available as attributes:
@@ -214,21 +212,34 @@ Only one workflow per scope per entity can be active. The last loaded workflow w
 
 ## Event-Triggered Transitions
 
-Transitions can fire automatically based on events without user action:
+Oro does not support an inline `trigger: event` key in workflow YAML. To trigger transitions programmatically based on events, use a Symfony event listener or subscriber that calls `WorkflowManager::transit()`:
 
-```yaml
-transitions:
-    auto_approve_low_priority:
-        trigger: event
-        event: oro.workflow.transition.post_transition
-        condition:
-            '@lte': [$document_priority, 1]
-        step_to: approved
-        actions:
-            - '@assign_value': [$approved_at, $.now]
+```php
+use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+class AutoApproveSubscriber implements EventSubscriberInterface
+{
+    public function __construct(private WorkflowManager $workflowManager) {}
+
+    #[\Override]
+    public static function getSubscribedEvents(): array
+    {
+        return ['oro.workflow.transition.post_transition' => 'onPostTransition'];
+    }
+
+    public function onPostTransition(object $event): void
+    {
+        $entity = $event->getWorkflowItem()->getEntity();
+        if ($entity->getPriority() <= 1) {
+            $workflowItem = $this->workflowManager->getWorkflowItem($entity);
+            $this->workflowManager->transit($workflowItem, 'auto_approve_low_priority');
+        }
+    }
+}
 ```
 
-Event names typically follow the pattern `oro.workflow.ENTITY.EVENT_NAME`. Check the entity listener configuration to determine available events.
+Register the subscriber as a tagged service (`kernel.event_subscriber`).
 
 ## Common Patterns
 
@@ -290,10 +301,10 @@ actions:
 
 5. **Form type instantiation**: Form types in transitions must be fully qualified class names and instantiable without constructor arguments (or with service injection via DI).
 
-6. **Query building**: Workflows don't filter entities by their step automatically. Use `WorkflowRegistry` to check step programmatically:
+6. **Query building**: Workflows don't filter entities by their step automatically. Use `WorkflowManager` to check step programmatically:
    ```php
-   $workflowItem = $this->workflowRegistry->getWorkflowItem($entity, 'document_approval');
-   if ($workflowItem->getCurrentStepName() === 'approved') { ... }
+   $workflowItem = $this->workflowManager->getWorkflowItem($entity);
+   if ($workflowItem?->getCurrentStep()?->getName() === 'approved') { ... }
    ```
 
 7. **Cache invalidation**: After modifying `workflows.yml`, clear the cache:
@@ -306,7 +317,7 @@ actions:
 
 Use the OroWorkflow UI in the backend to visualize workflow transitions. For debugging:
 - Check `workflow_item` and `workflow_step` tables in the database
-- Use `WorkflowRegistry::getWorkflowItem()` to inspect current state
+- Use `WorkflowManager::getWorkflowItem()` to inspect current state
 - Enable query logging to see how workflows filter entities
 
 See `references/condition-expressions.md` for complete expression reference, [v6.1 notes](references/v6.1.md) for version-specific details, and [v7.0 notes](references/v7.0.md) for upcoming changes.

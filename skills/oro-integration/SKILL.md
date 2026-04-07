@@ -33,6 +33,7 @@ class ProcessDocumentProcessor implements
         $this->logger = $logger;
     }
 
+    #[\Override]
     public function process(
         MessageInterface $message,
         SessionInterface $session
@@ -57,6 +58,7 @@ class ProcessDocumentProcessor implements
         }
     }
 
+    #[\Override]
     public static function getSubscribedTopics(): array
     {
         return ['acme_demo.document.process'];
@@ -114,53 +116,15 @@ The producer accepts a topic name and a JSON string. The message is serialized a
 
 ## Message Queue Configuration
 
-Configure the message queue transport in `config/config.yml`. OroCommerce defaults to DBAL (database polling):
+OroCommerce defaults to DBAL transport (database polling), which is sufficient for development and small workloads. For production, use AMQP (RabbitMQ) for push-based, high-throughput messaging.
 
-```yaml
-oro_message_queue:
-    transport:
-        default: 'dbal'
-        dbal:
-            connection: default
-            table: oro_message_queue
-            polling_interval: 1000  # milliseconds
-```
-
-**DBAL transport:** Uses the database table `oro_message_queue`. The consumer polls the table every `polling_interval` milliseconds. Good for small to medium workloads; not suitable for high-volume production without optimization.
-
-**AMQP/RabbitMQ (Enterprise):** For production, use AMQP with a message broker:
-
-```yaml
-oro_message_queue:
-    transport:
-        default: 'amqp'
-        amqp:
-            host: localhost
-            port: 5672
-            user: guest
-            password: guest
-            vhost: /
-```
-
-AMQP uses a broker queue, not polling, so it's more efficient for high-volume message processing.
-
-See `references/message-queue-config.md` for complete MQ configuration options.
+For transport configuration (DBAL, AMQP), consumer options, delayed messages, retry logic, and performance tuning, see [message-queue-config.md](references/message-queue-config.md).
 
 ## Consuming Messages
 
-Start a consumer to process queued messages:
+Start a consumer with `php bin/console oro:message-queue:consume`. It runs indefinitely, processing messages from the configured transport. Use `--time-limit=60` to exit after 60 seconds.
 
-```bash
-php bin/console oro:message-queue:consume
-```
-
-The consumer runs indefinitely, polling the queue and processing messages. It respects the configured transport (DBAL or AMQP).
-
-To process a specific number of messages and exit:
-
-```bash
-php bin/console oro:message-queue:consume --time-limit=60
-```
+For consumer command options, memory limits, and restart strategies, see [message-queue-config.md](references/message-queue-config.md).
 
 ## Import/Export
 
@@ -178,6 +142,7 @@ use Oro\Bundle\ImportExportBundle\Context\ContextInterface;
 
 class DocumentExportProcessor extends ExportProcessor
 {
+    #[\Override]
     public function process(ContextInterface $context)
     {
         // Iterate entities, convert to export format
@@ -197,6 +162,7 @@ class DocumentExportProcessor extends ExportProcessor
         return true;
     }
 
+    #[\Override]
     public function getProcessedEntityClass(): ?string
     {
         return Document::class;
@@ -219,6 +185,7 @@ class DocumentImportProcessor extends ImportProcessor
 {
     public function __construct(private EntityManagerInterface $em) {}
 
+    #[\Override]
     public function process(ContextInterface $context)
     {
         $data = $context->getValue('data');
@@ -235,6 +202,7 @@ class DocumentImportProcessor extends ImportProcessor
         return true;
     }
 
+    #[\Override]
     public function getProcessedEntityClass(): ?string
     {
         return Document::class;
@@ -253,6 +221,7 @@ use Oro\Bundle\ImportExportBundle\Converter\DataConverterInterface;
 
 class DocumentDataConverter implements DataConverterInterface
 {
+    #[\Override]
     public function convertToImportFormat(array $exportedRecord, $skipNullValues = true): array
     {
         // Convert from entity fields to import row
@@ -262,6 +231,7 @@ class DocumentDataConverter implements DataConverterInterface
         ];
     }
 
+    #[\Override]
     public function convertToExportFormat(array $importedRecord, $skipNullValues = true): array
     {
         // Convert from import row to entity fields
@@ -301,22 +271,26 @@ class MyApiTransport implements TransportInterface
     private $baseUrl;
     private $apiKey;
 
+    #[\Override]
     public function init(TransportSettingsInterface $settings): void
     {
         $this->baseUrl = $settings->getSetting('base_url');
         $this->apiKey = $settings->getSetting('api_key');
     }
 
+    #[\Override]
     public function getLabel(): string
     {
         return 'My External API';
     }
 
+    #[\Override]
     public function getSettingsFormType(): string
     {
         return MyApiTransportSettingsFormType::class;
     }
 
+    #[\Override]
     public function getSettingsEntityFQCN(): string
     {
         return MyApiTransportSettings::class;
@@ -349,37 +323,51 @@ Register a cron job to run a command on a schedule. Create a command and tag it 
 ```php
 namespace Acme\Bundle\DemoBundle\Command;
 
+use Oro\Bundle\CronBundle\Command\CronCommandInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CleanupCommand extends Command
+#[AsCommand(name: 'acme:cron:sync-documents', description: 'Sync documents from external source')]
+class SyncDocumentsCronCommand extends Command implements CronCommandInterface
 {
-    protected static $defaultName = 'acme:cleanup';
+    #[\Override]
+    public function getDefaultDefinition(): string
+    {
+        return '0 */4 * * *';
+    }
 
+    #[\Override]
+    public function isActive(): bool
+    {
+        return true;
+    }
+
+    #[\Override]
     protected function execute(
         InputInterface $input,
         OutputInterface $output
     ): int
     {
-        // Perform cleanup work
-        $output->writeln('Cleanup complete');
+        // Perform sync work
+        $output->writeln('Sync complete');
         return Command::SUCCESS;
     }
 }
 ```
 
-Register with cron expression:
+Register the command as a service (autoconfigure handles the tag via `CronCommandInterface`):
 
 ```yaml
 services:
-    acme_demo.cron.cleanup:
-        class: Acme\Bundle\DemoBundle\Command\CleanupCommand
+    acme_demo.cron.sync_documents:
+        class: Acme\Bundle\DemoBundle\Command\SyncDocumentsCronCommand
         tags:
-            - { name: 'oro_cron_command', cron: '0 */4 * * *' }
+            - { name: 'console.command' }
 ```
 
-The cron expression is standard Linux cron format: `minute hour dayOfMonth month dayOfWeek`.
+The cron schedule is defined in `getDefaultDefinition()`. Standard Linux cron format: `minute hour dayOfMonth month dayOfWeek`.
 - `0 */4 * * *` — Every 4 hours, at the top of the hour
 - `0 9 * * 1-5` — Weekdays at 9 AM
 - `0 0 1 * *` — First day of each month

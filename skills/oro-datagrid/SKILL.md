@@ -52,29 +52,15 @@ datagrids:
                 rowAction: true
 ```
 
-**Why this structure matters:**
-- `source` defines the data query (ORM, search, array)
-- `columns` maps entity properties to UI display
-- `filters` restricts data client-side or server-side
-- `sorters` enables column header sorting
-- `actions` adds row/bulk buttons
-
 ## Column Types Reference (v6.1)
 
-See `references/column-types.md` for full details. Common types:
+Most common types (see `references/column-types.md` for the full list with examples):
 
 - `string` — text field, renders as-is
-- `integer` — numbers
+- `integer` — numbers, right-aligned by default
 - `boolean` — true/false, renders as checkmark/X
-- `date` — format YYYY-MM-DD
 - `datetime` — full timestamp
-- `decimal` — decimals with precision
-- `percent` — percentage display
-- `currency` — currency symbol + amount
-- `html` — raw HTML (use carefully)
-- `link` — clickable URL
-- `twig` — Twig template rendering
-- `phone` — phone number formatting
+- `currency` — currency symbol + amount (requires `currency_code` option)
 
 ## Filter Types & Configuration
 
@@ -101,7 +87,7 @@ filters:
             type: datetime
 ```
 
-**Filter clarity:** Filters are client-side suggestions unless you bind them to sorters/columns with `data_name`. If `data_name` is missing, the filter UI appears but doesn't affect results.
+**Filter clarity:** Filters generate server-side DQL WHERE clauses. The `data_name` property binds the filter to a query alias. If `data_name` is missing, the filter UI renders but produces no WHERE clause, so results are unaffected.
 
 ## Sorters: Enable Column Sorting
 
@@ -149,8 +135,6 @@ actions:
         link: acme_demo_document_delete
         rowAction: false
 ```
-
-**Icon names:** eye, pencil, trash, download, arrow-right, etc. Use FontAwesome icons.
 
 ### Mass Actions
 

@@ -177,7 +177,7 @@ entities:
             organization_field_name: organization
 ```
 
-The `owner` field is typically `@ORM\ManyToOne(targetEntity="User")`. The `organization` field is `@ORM\ManyToOne(targetEntity="Organization")`.
+The `owner` field is typically `#[ORM\ManyToOne(targetEntity: User::class)]`. The `organization` field is `#[ORM\ManyToOne(targetEntity: Organization::class)]`.
 
 ## Custom Permissions
 
@@ -235,38 +235,52 @@ class DocumentRepository
 
 Without `$aclHelper->apply($qb)`, the query returns all entities regardless of permissions.
 
-**Custom access rules**: Create custom logic for filtering by implementing `AccessRuleInterface`:
+**Custom access rules**: Create custom logic for filtering by implementing `AccessRuleInterface`. The interface uses `Criteria` (not `QueryBuilder`) and expression objects for building conditions:
 
 ```php
-namespace Acme\Bundle\DemoBundle\Security;
+namespace Acme\Bundle\DemoBundle\AccessRule;
 
 use Oro\Bundle\SecurityBundle\AccessRule\AccessRuleInterface;
-use Doctrine\ORM\QueryBuilder;
+use Oro\Bundle\SecurityBundle\AccessRule\Criteria;
+use Oro\Bundle\SecurityBundle\AccessRule\Expr\Comparison;
+use Oro\Bundle\SecurityBundle\AccessRule\Expr\Path;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class DocumentAccessRule implements AccessRuleInterface
 {
-    public function isApplicable($entity, $permission): bool
+    public function __construct(
+        private readonly TokenAccessorInterface $tokenAccessor
+    ) {}
+
+    #[\Override]
+    public function isApplicable(Criteria $criteria): bool
     {
-        return $entity === Document::class && $permission === 'VIEW';
+        return true; // Tag options handle entity filtering; use for complex logic only
     }
 
-    public function apply(QueryBuilder $qb, $permission): void
+    #[\Override]
+    public function process(Criteria $criteria): void
     {
-        $qb->andWhere('d.published = :published')
-           ->setParameter('published', true);
+        $criteria->andExpression(
+            new Comparison(
+                new Path('owner'),
+                Comparison::EQ,
+                $this->tokenAccessor->getUserId()
+            )
+        );
     }
 }
 ```
 
-Register in `services.yml`:
+Register in `services.yml` with entity class and type specified in the tag:
 
 ```yaml
-Acme\Bundle\DemoBundle\Security\DocumentAccessRule:
+Acme\Bundle\DemoBundle\AccessRule\DocumentAccessRule:
     tags:
-        - { name: oro_security.access_rule }
+        - { name: oro_security.access_rule, type: ORM, entityClass: Acme\Bundle\DemoBundle\Entity\Document }
 ```
 
-This rule is applied automatically to all queries of the Document entity with VIEW permission.
+The `entityClass` tag option filters which entities the rule applies to. The `type` option specifies the query type (typically `ORM`). The `isApplicable()` method provides additional runtime control beyond tag filtering.
 
 ## Field-Level ACL
 
@@ -298,6 +312,8 @@ if ($this->isGranted('VIEW', $entity, 'price')) {
     $price = $entity->getPrice();
 }
 ```
+
+**Note**: The three-argument `isGranted($permission, $object, $field)` call is Oro's extended authorization checker (`Oro\Bundle\SecurityBundle\Authorization\AuthorizationChecker`), not standard Symfony. Standard Symfony `isGranted()` only accepts two arguments. This extension is available in controllers via `AbstractController::isGranted()` and via the `security.authorization_checker` service in Oro.
 
 ## Console Commands
 

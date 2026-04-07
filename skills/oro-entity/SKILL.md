@@ -7,7 +7,9 @@ description: "OroCommerce v6.1 entity creation, extension, and migration pattern
 
 ## Entity Creation with PHP 8 Attributes
 
-Create entities using PHP 8 attributes (not docblock annotations). Attributes are parsed at runtime in v6.1:
+Create entities using PHP 8 attributes (not docblock annotations). Attributes are parsed at runtime in v6.1.
+
+The following is the canonical pattern for a new OroCommerce entity. It combines `ExtendEntityInterface` (for runtime custom fields), `#[Config]` ownership, security configuration, and the mandatory ownership fields:
 
 ```php
 <?php
@@ -16,61 +18,74 @@ namespace Acme\Bundle\DemoBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\UserBundle\Entity\User;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'acme_demo_document')]
 #[Config(
+    routeName: 'acme_demo_document_index',
+    routeView: 'acme_demo_document_view',
     defaultValues: [
+        'entity' => [
+            'icon' => 'fa-file',
+            'label' => 'Document',
+            'plural_label' => 'Documents',
+        ],
         'ownership' => [
             'owner_type' => 'USER',
             'owner_field_name' => 'owner',
-            'owner_column_name' => 'owner_id',
+            'owner_column_name' => 'user_owner_id',
+            'organization_field_name' => 'organization',
+            'organization_column_name' => 'organization_id',
+        ],
+        'security' => [
+            'type' => 'ACL',
+            'permissions' => 'VIEW;CREATE;EDIT;DELETE',
+            'group_name' => '',
         ],
     ]
 )]
-class Document
+class Document implements ExtendEntityInterface
 {
+    use ExtendEntityTrait;
+
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
-    #[ORM\Column(
-        name: 'subject',
-        type: 'string',
-        length: 255,
-        nullable: false
-    )]
-    private $subject;
+    #[ORM\Column(type: 'string', length: 255)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
+    private string $title;
 
-    #[ORM\Column(
-        name: 'description',
-        type: 'text',
-        nullable: true
-    )]
-    private $description;
+    // MANDATORY for USER ownership: timestamp fields use standard Doctrine columns
+    // (Oro uses lifecycle callbacks or Gedmo timestampable — NOT #[ORM\CreatedAt] or #[ORM\UpdatedAt])
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $createdAt = null;
 
-    #[ORM\ManyToOne(targetEntity: Priority::class)]
-    #[ORM\JoinColumn(
-        name: 'priority_id',
-        nullable: true,
-        onDelete: 'SET NULL'
-    )]
-    private $priority;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $updatedAt = null;
 
-    #[ORM\CreatedAt]
-    #[ORM\Column(type: 'datetime')]
-    private \DateTime $createdAt;
+    // MANDATORY for USER ownership: owner field
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'user_owner_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    private ?User $owner = null;
 
-    #[ORM\UpdatedAt]
-    #[ORM\Column(type: 'datetime')]
-    private \DateTime $updatedAt;
+    // MANDATORY for USER ownership: organization field
+    #[ORM\ManyToOne(targetEntity: Organization::class)]
+    #[ORM\JoinColumn(name: 'organization_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    private ?Organization $organization = null;
 
-    // Getters and setters...
+    // Getters/setters...
 }
 ```
 
 **Why attributes matter:** They're parsed at runtime, enabling IDE autocomplete and type checking. Unlike annotations, they're not optional — Doctrine requires them.
+
+Use `ExtendEntityInterface` only when admin users need to add custom fields at runtime via the entity management UI (System -> Entity Management). Standard entities that won't be extended at runtime don't need it.
 
 ## Ownership Configuration
 
@@ -130,7 +145,9 @@ Personal/individual ownership:
         'ownership' => [
             'owner_type' => 'USER',
             'owner_field_name' => 'owner',
-            'owner_column_name' => 'owner_id',
+            'owner_column_name' => 'user_owner_id',
+            'organization_field_name' => 'organization',
+            'organization_column_name' => 'organization_id',
         ],
     ]
 )]
@@ -144,6 +161,8 @@ Use for: Personal records (tasks, notes, assigned work).
 - Department/team owned? → BUSINESS_UNIT (include both org + BU fields)
 - Personal/assigned to user? → USER (include both org + user fields)
 
+For complete ownership type configurations, field requirements, and database schema examples, see [ownership-types.md](references/ownership-types.md).
+
 ## Entity with Ownership Fields (USER type example)
 
 ```php
@@ -154,7 +173,9 @@ Use for: Personal records (tasks, notes, assigned work).
         'ownership' => [
             'owner_type' => 'USER',
             'owner_field_name' => 'owner',
-            'owner_column_name' => 'owner_id',
+            'owner_column_name' => 'user_owner_id',
+            'organization_field_name' => 'organization',
+            'organization_column_name' => 'organization_id',
         ],
     ]
 )]
@@ -175,7 +196,7 @@ class Task
 
     // MANDATORY: Owner field
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'owner_id', nullable: false)]
+    #[ORM\JoinColumn(name: 'user_owner_id', nullable: false)]
     private $owner;
 }
 ```
@@ -184,33 +205,11 @@ Missing organization or owner fields will cause access control failures.
 
 ## ExtendEntity Pattern
 
-Use `ExtendEntityInterface` and `ExtendEntityTrait` for entities that support custom fields in the admin UI:
+The canonical entity example above demonstrates `ExtendEntityInterface` and `ExtendEntityTrait` in combination with ownership and security configuration. The key requirements are:
 
-```php
-<?php
-namespace Acme\Bundle\DemoBundle\Entity;
-
-use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
-use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
-use Doctrine\ORM\Mapping as ORM;
-
-#[ORM\Entity]
-#[ORM\Table(name: 'acme_demo_flexible')]
-class FlexibleDocument implements ExtendEntityInterface
-{
-    use ExtendEntityTrait;
-
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
-
-    #[ORM\Column(name: 'name', type: 'string')]
-    private $name;
-}
-```
-
-This enables admins to add custom fields at runtime via System → Entity Management.
+1. Implement `ExtendEntityInterface`
+2. Use `ExtendEntityTrait`
+3. The trait provides the magic `__get`/`__set`/`__isset`/`__call` methods for runtime-added fields
 
 ## ConfigField Attribute
 
@@ -245,7 +244,7 @@ Place migrations in `src/Acme/Bundle/DemoBundle/Migrations/Schema/`.
 
 ```php
 <?php
-namespace Acme\Bundle\DemoBundle\Migrations\Schema;
+namespace Acme\Bundle\DemoBundle\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
@@ -280,7 +279,6 @@ namespace Acme\Bundle\DemoBundle\Migrations\Schema;
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionInterface;
-use Oro\Bundle\EntityExtendBundle\Entity\Repository\EnumValueRepository;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
@@ -288,7 +286,8 @@ class AddCustomFieldToProduct implements Migration, ExtendExtensionAwareInterfac
 {
     private ExtendExtensionInterface $extendExtension;
 
-    public function setExtendExtension(ExtendExtensionInterface $extendExtension)
+    #[\Override]
+    public function setExtendExtension(ExtendExtensionInterface $extendExtension): void
     {
         $this->extendExtension = $extendExtension;
     }
@@ -303,7 +302,7 @@ class AddCustomFieldToProduct implements Migration, ExtendExtensionAwareInterfac
             [
                 'extend' => [
                     'is_extend' => true,
-                    'owner' => 'custom',  // ExtendScope::OWNER_CUSTOM
+                    'owner' => 'custom',  // Prefer ExtendScope::OWNER_CUSTOM constant
                 ],
                 'datagrid' => [
                     'is_visible' => true,
@@ -319,7 +318,7 @@ class AddCustomFieldToProduct implements Migration, ExtendExtensionAwareInterfac
             [
                 'extend' => [
                     'is_extend' => true,
-                    'owner' => 'custom',
+                    'owner' => 'custom',  // Prefer ExtendScope::OWNER_CUSTOM constant
                     'target_entity' => 'Oro\Bundle\EntityExtendBundle\Entity\EnumValue',
                     'target_field' => 'id',
                 ],
@@ -405,5 +404,6 @@ php bin/console doctrine:mapping:info
 
 ## See Also
 
+- `references/ownership-types.md` — Complete ownership type configurations, field requirements, and database schemas
 - `references/v6.1.md` — v6.1 specifics, migration checklist, and common failures
 - `references/v7.0.md` — v7.0 changes (placeholder)

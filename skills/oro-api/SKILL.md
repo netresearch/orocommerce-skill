@@ -193,19 +193,24 @@ api:
 Processors intercept requests and manipulate data. Register in `services.yml`:
 
 ```php
-// src/Acme/Bundle/DemoBundle/Api/Processor/CustomProcessor.php
 namespace Acme\Bundle\DemoBundle\Api\Processor;
 
-use Oro\Bundle\ApiBundle\Processor\Context;
+use Oro\Component\ChainProcessor\ContextInterface;
+use Oro\Bundle\ApiBundle\Processor\ProcessorInterface;
 
-class CustomProcessor {
-    public function process(Context $context) {
-        // Manipulate the request/response
-        $data = $context->getResult();
-        if (is_array($data)) {
-            $data['custom_field'] = 'custom_value';
-            $context->setResult($data);
+class NormalizeDocumentData implements ProcessorInterface
+{
+    #[\Override]
+    public function process(ContextInterface $context): void
+    {
+        if ($context->hasProcessed(__METHOD__)) {
+            return;
         }
+
+        $data = $context->getResult();
+        // Transform data...
+        $context->setResult($data);
+        $context->setProcessed(__METHOD__);
     }
 }
 ```
@@ -214,8 +219,8 @@ Register the processor:
 
 ```yaml
 services:
-    acme.api.custom_processor:
-        class: Acme\Bundle\DemoBundle\Api\Processor\CustomProcessor
+    acme.api.processor.normalize_document_data:
+        class: Acme\Bundle\DemoBundle\Api\Processor\NormalizeDocumentData
         tags:
             - { name: oro.api.processor, action: get, group: normalize_data, priority: 10 }
 ```
@@ -230,20 +235,9 @@ See `references/processor-groups.md` for full processor group list and execution
 
 ## Processor Groups & Execution Order
 
-Processors are grouped and execute in a strict order:
+Processors execute in a strict 10-group pipeline: initialize → resource_check → normalize_input → security_check → load_data → data_security_check → transform_data → save_data → normalize_data → finalize. Most custom logic goes into `normalize_data` (runs after all data loading).
 
-1. **initialize** — Setup context
-2. **resource_check** — Verify entity exists
-3. **normalize_input** — Parse client input
-4. **security_check** — Check user permissions
-5. **load_data** — Fetch data from database
-6. **data_security_check** — Field-level security
-7. **transform_data** — Convert to API format
-8. **save_data** — Persist to database
-9. **normalize_data** — Final transformations
-10. **finalize** — Cleanup
-
-Most custom logic goes into `normalize_data` (runs after all data loading).
+For the full group reference with per-group context, hook guidance, and action-specific availability, see [processor-groups.md](references/processor-groups.md).
 
 ## Cache Management
 
