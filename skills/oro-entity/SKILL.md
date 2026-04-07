@@ -1,7 +1,6 @@
 ---
 name: oro-entity
 description: "OroCommerce v6.1 entity creation, extension, and migration patterns. Use this skill when creating new Doctrine entities, extending existing Oro core entities (like Product, Order, Customer), writing schema migrations, configuring entity ownership (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL), using ConfigField attributes, creating enum entities, or working with ExtendEntity traits. Triggers for any 'create entity', 'add field to Product', 'write migration', 'extend entity', 'custom field', or entity ownership questions in OroCommerce context."
-version: "6.1"
 ---
 
 # OroCommerce v6.1 Entity Development
@@ -404,15 +403,7 @@ php bin/console doctrine:mapping:info
 4. **Creating fields with nullable=true when ownership requires them** — Database constraints fail on insert
 5. **Not running `oro:entity-extend:cache:clear`** — ConfigField changes won't appear in the UI
 
-## Version Notes
+## See Also
 
-**v6.1 specifics:**
-- PHP 8 attributes mandatory; docblock annotations ignored
-- `ExtendEntityInterface` is standard for custom-field-capable entities
-- Migrations use `ExtendExtensionInterface` for core entity extension
-- PostgreSQL is primary; test migrations there first
-
-**Preparing for v7.0:**
-- Expect repository method signatures to change (auto-discovery likely)
-- Migration infrastructure may shift to attribute-based discovery
-- Ownership types may be refactored into configuration objects
+- `references/v6.1.md` — v6.1 specifics, migration checklist, and common failures
+- `references/v7.0.md` — v7.0 changes (placeholder)

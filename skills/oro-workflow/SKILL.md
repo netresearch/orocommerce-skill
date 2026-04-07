@@ -1,12 +1,9 @@
 ---
 name: oro-workflow
 description: "OroCommerce v6.1 workflow, operation, and action configuration. Use this skill when creating approval workflows, customizing checkout flow, defining workflow steps and transitions, configuring transition conditions and actions, setting up operations, or working with workflow scopes. Triggers for 'workflow', 'checkout customization', 'approval process', 'state machine', 'transitions', 'operations.yml', 'workflows.yml', or any OroCommerce business process automation."
-version: "6.1"
 ---
 
 # OroCommerce v6.1 Workflow Configuration Skill
-
-Workflows in OroCommerce v6.1 define multi-step business processes with state transitions, conditional logic, and automated actions. This skill covers workflow definition, checkout customization, operations, and common pitfalls.
 
 ## File Locations
 
@@ -312,4 +309,4 @@ Use the OroWorkflow UI in the backend to visualize workflow transitions. For deb
 - Use `WorkflowRegistry::getWorkflowItem()` to inspect current state
 - Enable query logging to see how workflows filter entities
 
-See `references/condition-expressions.md` for complete expression reference and `references/version-notes.md` for v6.1 specifics.
+See `references/condition-expressions.md` for complete expression reference, [v6.1 notes](references/v6.1.md) for version-specific details, and [v7.0 notes](references/v7.0.md) for upcoming changes.

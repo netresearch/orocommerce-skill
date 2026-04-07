@@ -1,7 +1,6 @@
 ---
 name: oro-bundle
 description: "OroCommerce v6.1 bundle scaffolding, registration, and structure. Use this skill whenever creating a new Oro bundle, registering bundles, setting up DependencyInjection extensions, configuring services.yml, adding translations, navigation menus, or system configuration. Also triggers for bundle-level boilerplate like compiler passes, event subscriber registration, and console commands. Activate for any 'create a bundle', 'scaffold', 'new Oro module', or general OroCommerce project structure questions."
-version: "6.1"
 ---
 
 # OroCommerce v6.1 Bundle Development
@@ -290,14 +289,7 @@ class EntityChangeListener implements EventSubscriberInterface
 
 Register in services.yml with the `kernel.event_subscriber` tag (auto-subscribed).
 
-## Version Notes
+## See Also
 
-**v6.1 specifics:**
-- PHP 8 attributes (e.g., `#[\Override]`) are standard; annotations are deprecated
-- `getPath()` method in Bundle class replaces `getNamespace()`
-- PostgreSQL is the primary database; MySQL support is reduced
-
-**Preparing for v7.0:**
-- Event system refactoring expected — listeners may move to attribute-based dispatch
-- Possible service container lazy-loading optimizations
-- Check Oro upgrade docs before major version jumps
+- `references/v6.1.md` — v6.1 specifics, migration checklist, and environment notes
+- `references/v7.0.md` — v7.0 changes (placeholder)

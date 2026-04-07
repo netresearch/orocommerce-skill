@@ -1,12 +1,9 @@
 ---
 name: oro-datagrid
 description: "OroCommerce v6.1 datagrid configuration and customization. Use this skill when creating new datagrids, adding columns to existing grids, configuring filters, sorters, actions, mass actions, inline editing, or extending core grids (like product-grid, order-grid, customer-grid). Triggers for any 'create a grid', 'add column', 'grid filter', 'datagrid', 'data table', 'list view', or grid customization in OroCommerce."
-version: "6.1"
 ---
 
 # OroCommerce v6.1 Datagrid Configuration & Customization
-
-Datagrids power the back-office lists and admin interface. They're configured as YAML and built via Symfony DIC events. Knowing the exact structure, column types, and extension patterns saves hours of debugging.
 
 ## Core File Location
 
@@ -365,4 +362,5 @@ In production, rebuild the container cache.
 ## See Also
 
 - `references/column-types.md` — Full column & filter type reference
-- `references/version-notes.md` — v6.1 specifics and v7.0 preview
+- `references/v6.1.md` — v6.1 specifics, backward compatibility, and troubleshooting
+- `references/v7.0.md` — v7.0 changes (placeholder)

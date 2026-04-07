@@ -1,12 +1,9 @@
 ---
 name: oro-integration
 description: "OroCommerce v6.1 integration development — import/export, message queue, connectors, and external system communication. Use this skill when creating import/export processors, setting up message queue consumers/producers, building integration channels and transports, configuring cron jobs, handling webhooks, or connecting Oro to external systems (ERP, PIM, payment, shipping). Triggers for 'import', 'export', 'message queue', 'consumer', 'producer', 'integration channel', 'connector', 'cron job', 'webhook', 'async processing', or any OroCommerce integration task."
-version: "6.1"
 ---
 
 # OroCommerce v6.1 Integration Development
-
-This skill guides developers through async processing, import/export, and external system integration in OroCommerce: setting up message queue consumers/producers, building import/export processors, creating integration channels, managing cron jobs, and handling webhooks.
 
 ## Message Queue: Async Processing
 
@@ -450,8 +447,6 @@ php bin/console oro:cron:run
 
 ## Version Notes
 
-OroCommerce v6.1 message queue, import/export, and integration systems are stable and follow the patterns described here. The framework is compatible with Symfony 5.4.
+For version-specific details, see [v6.1 notes](references/v6.1.md) | [v7.0 notes](references/v7.0.md).
 
-For v7.0 and later, check the official Oro documentation as these subsystems may evolve.
-
-See `references/message-queue-config.md` and `references/version-notes.md` for detailed v6.1 configuration and migration guidance.
+See also `references/message-queue-config.md` for complete MQ configuration options.

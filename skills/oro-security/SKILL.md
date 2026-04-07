@@ -1,12 +1,9 @@
 ---
 name: oro-security
 description: "OroCommerce v6.1 ACL, permissions, and access control configuration. Use this skill when configuring entity permissions (acls.yml), setting up ownership types, using Acl/AclAncestor PHP attributes on controllers, creating custom permissions, implementing field-level ACL, writing access rules for query filtering, or debugging permission issues. Triggers for 'ACL', 'permissions', 'access control', 'ownership', 'security', 'acls.yml', 'field ACL', 'access rules', or any OroCommerce authorization task."
-version: "6.1"
 ---
 
 # OroCommerce v6.1 Security & ACL Configuration Skill
-
-OroCommerce v6.1 security is built on Symfony's ACL system extended with ownership scopes (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL) and field-level permissions. This skill covers ACL configuration, PHP attributes, access rules, and common pitfalls.
 
 ## File Locations
 
@@ -395,4 +392,4 @@ doctrine:
         logging: true
 ```
 
-See `references/permission-matrix.md` for complete permission/ownership interaction matrix and `references/version-notes.md` for v6.1 specifics.
+See `references/permission-matrix.md` for complete permission/ownership interaction matrix, [v6.1 notes](references/v6.1.md) for version-specific details, and [v7.0 notes](references/v7.0.md) for upcoming changes.

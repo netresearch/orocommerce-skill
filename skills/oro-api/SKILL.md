@@ -1,12 +1,9 @@
 ---
 name: oro-api
 description: "OroCommerce v6.1 REST API configuration and development. Use this skill when exposing entities via API, configuring api.yml or api_frontend.yml, creating custom API processors, setting up filters/sorters/subresources, or working with JSON:API endpoints. Triggers for 'API endpoint', 'expose entity via API', 'api.yml', 'REST API', 'JSON:API', 'storefront API', 'API processor', or any OroCommerce API development task."
-version: "6.1"
 ---
 
 # OroCommerce v6.1 REST API Configuration & Development
-
-OroCommerce exposes entities via JSON:API using a processor-based architecture. Configuration is YAML; extensibility is via processors. Understanding the config structure and processor pipeline prevents days of debugging.
 
 ## Core File Locations
 
@@ -389,4 +386,5 @@ Symptoms: New fields don't appear, filters don't work, actions disabled but stil
 ## See Also
 
 - `references/processor-groups.md` — Full processor group reference and ordering
-- `references/version-notes.md` — v6.1 specifics and v7.0 preview
+- `references/v6.1.md` — v6.1 specifics, backward compatibility, and migration notes
+- `references/v7.0.md` — v7.0 changes (placeholder)

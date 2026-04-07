@@ -1,12 +1,9 @@
 ---
 name: oro-frontend
 description: "OroCommerce v6.1 frontend development — themes, SCSS, Twig layouts, JavaScript, and page components. Use this skill when creating custom themes, overriding templates, writing SCSS styles, configuring layout updates, creating JavaScript page components, working with jsmodules.yml or assets.yml, or customizing storefront/back-office appearance. Triggers for 'theme', 'SCSS', 'Twig layout', 'template override', 'page component', 'layout update', 'assets.yml', 'jsmodules.yml', 'storefront styling', 'back-office UI', or any OroCommerce frontend development task."
-version: "6.1"
 ---
 
 # OroCommerce v6.1 Frontend Development
-
-This skill guides developers through OroCommerce storefront and back-office frontend work: creating themes, writing SCSS, managing Twig layouts, building JavaScript components, and configuring assets.
 
 ## Theme Structure
 
@@ -352,8 +349,4 @@ The build command reads `assets.yml`, compiles SCSS in folder order, and outputs
 
 ## Version Notes
 
-OroCommerce v6.1 uses Symfony 5.4 and Sass 3. The layout system, Twig blocks, and asset build process described here are stable in 6.1.
-
-For v7.0 and later, refer to the official Oro documentation as the frontend architecture may evolve.
-
-See `references/version-notes.md` for detailed v6.1 specifics and migration guidance.
+For version-specific details, see [v6.1 notes](references/v6.1.md) | [v7.0 notes](references/v7.0.md).
