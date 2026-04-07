@@ -13,15 +13,15 @@
     "netresearch/composer-agent-skill-plugin": "*"
   },
   "extra": {
-    "ai-agent-skill": {
-      "oro-api": "skills/oro-api/SKILL.md",
-      "oro-bundle": "skills/oro-bundle/SKILL.md",
-      "oro-datagrid": "skills/oro-datagrid/SKILL.md",
-      "oro-entity": "skills/oro-entity/SKILL.md",
-      "oro-frontend": "skills/oro-frontend/SKILL.md",
-      "oro-integration": "skills/oro-integration/SKILL.md",
-      "oro-security": "skills/oro-security/SKILL.md",
-      "oro-workflow": "skills/oro-workflow/SKILL.md"
-    }
+    "ai-agent-skill": [
+      "skills/oro-api/SKILL.md",
+      "skills/oro-bundle/SKILL.md",
+      "skills/oro-datagrid/SKILL.md",
+      "skills/oro-entity/SKILL.md",
+      "skills/oro-frontend/SKILL.md",
+      "skills/oro-integration/SKILL.md",
+      "skills/oro-security/SKILL.md",
+      "skills/oro-workflow/SKILL.md"
+    ]
   }
 }

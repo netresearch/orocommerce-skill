@@ -1,6 +1,6 @@
 ---
 name: oro-bundle
-description: "OroCommerce v6.1 bundle scaffolding, registration, and structure. This skill should be used when creating a new Oro bundle, registering bundles, setting up DependencyInjection extensions, configuring services.yml, adding translations, navigation menus, or system configuration. Also relevant for bundle-level boilerplate like compiler passes, event subscriber registration, and console commands. Also applies to 'create a bundle', 'scaffold', 'new Oro module', or general OroCommerce project structure questions."
+description: "Use when creating a new OroCommerce v6.1 bundle, registering bundles, setting up DependencyInjection extensions, configuring services.yml, adding translations, navigation menus, or system configuration. Also relevant for bundle-level boilerplate like compiler passes, event subscriber registration, and console commands. Also applies to 'create a bundle', 'scaffold', 'new Oro module', or general OroCommerce project structure questions."
 ---
 
 # OroCommerce v6.1 Bundle Development
@@ -258,6 +258,44 @@ acme_demo.decorated_service:
 ```
 
 Decoration is safer than dependency injection modification — it preserves the original service for other consumers.
+
+### Compiler Passes
+
+Collect tagged services into a registry using a compiler pass:
+
+```php
+namespace Acme\Bundle\DemoBundle\DependencyInjection\Compiler;
+
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
+
+class RegisterHandlersPass implements CompilerPassInterface
+{
+    #[\Override]
+    public function process(ContainerBuilder $container): void
+    {
+        if (!$container->hasDefinition('acme_demo.handler_registry')) {
+            return;
+        }
+
+        $registry = $container->getDefinition('acme_demo.handler_registry');
+        foreach ($container->findTaggedServiceIds('acme_demo.handler') as $id => $tags) {
+            $registry->addMethodCall('addHandler', [new Reference($id)]);
+        }
+    }
+}
+```
+
+Register the pass in your bundle class's `build()` method:
+
+```php
+public function build(ContainerBuilder $container): void
+{
+    parent::build($container);
+    $container->addCompilerPass(new RegisterHandlersPass());
+}
+```
 
 ### Event Listeners
 

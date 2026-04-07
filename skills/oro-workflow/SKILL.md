@@ -1,6 +1,6 @@
 ---
 name: oro-workflow
-description: "OroCommerce v6.1 workflow, operation, and action configuration. This skill should be used when creating approval workflows, customizing checkout flow, defining workflow steps and transitions, configuring transition conditions and actions, setting up operations, or working with workflow scopes. Relevant when the user mentions 'workflow', 'checkout customization', 'approval process', 'state machine', 'transitions', 'operations.yml', 'workflows.yml', or any OroCommerce business process automation."
+description: "Use when creating OroCommerce v6.1 approval workflows, customizing checkout flow, defining workflow steps and transitions, configuring transition conditions and actions, setting up operations, or working with workflow scopes. Relevant when the user mentions 'workflow', 'checkout customization', 'approval process', 'state machine', 'transitions', 'operations.yml', 'workflows.yml', or any OroCommerce business process automation."
 ---
 
 # OroCommerce v6.1 Workflow Configuration Skill

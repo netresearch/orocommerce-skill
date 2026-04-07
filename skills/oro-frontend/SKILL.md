@@ -1,6 +1,6 @@
 ---
 name: oro-frontend
-description: "OroCommerce v6.1 frontend development — themes, SCSS, Twig layouts, JavaScript, and page components. This skill should be used when creating custom themes, overriding templates, writing SCSS styles, configuring layout updates, creating JavaScript page components, working with jsmodules.yml or assets.yml, or customizing storefront/back-office appearance. Relevant when the user mentions 'theme', 'SCSS', 'Twig layout', 'template override', 'page component', 'layout update', 'assets.yml', 'jsmodules.yml', 'storefront styling', 'back-office UI', or any OroCommerce frontend development task."
+description: "Use when developing OroCommerce v6.1 frontend — creating custom themes, overriding templates, writing SCSS styles, configuring layout updates, creating JavaScript page components, working with jsmodules.yml or assets.yml, or customizing storefront/back-office appearance. Relevant when the user mentions 'theme', 'SCSS', 'Twig layout', 'template override', 'page component', 'layout update', 'assets.yml', 'jsmodules.yml', 'storefront styling', 'back-office UI', or any OroCommerce frontend development task."
 ---
 
 # OroCommerce v6.1 Frontend Development

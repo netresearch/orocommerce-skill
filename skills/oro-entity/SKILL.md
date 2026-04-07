@@ -1,6 +1,6 @@
 ---
 name: oro-entity
-description: "OroCommerce v6.1 entity creation, extension, and migration patterns. This skill should be used when creating new Doctrine entities, extending existing Oro core entities (like Product, Order, Customer), writing schema migrations, configuring entity ownership (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL), using ConfigField attributes, creating enum entities, or working with ExtendEntity traits. Relevant when the user mentions 'create entity', 'add field to Product', 'write migration', 'extend entity', 'custom field', or entity ownership questions in OroCommerce context."
+description: "Use when creating new OroCommerce v6.1 Doctrine entities, extending existing Oro core entities (like Product, Order, Customer), writing schema migrations, configuring entity ownership (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL), using ConfigField attributes, creating enum entities, or working with ExtendEntity traits. Relevant when the user mentions 'create entity', 'add field to Product', 'write migration', 'extend entity', 'custom field', or entity ownership questions in OroCommerce context."
 ---
 
 # OroCommerce v6.1 Entity Development
@@ -91,51 +91,7 @@ Use `ExtendEntityInterface` only when admin users need to add custom fields at r
 
 The `#[Config]` attribute defines entity ownership. This determines access control and multi-tenancy behavior. Four types exist:
 
-### GLOBAL
-System-wide settings, no ownership:
-```php
-#[Config(
-    defaultValues: [
-        'ownership' => [
-            'owner_type' => 'GLOBAL',
-        ],
-    ]
-)]
-```
-Use for: System configuration, global settings, reference data.
-**No organization or owner field required.**
-
-### ORGANIZATION
-Multi-organization entities, scoped to an organization:
-```php
-#[Config(
-    defaultValues: [
-        'ownership' => [
-            'owner_type' => 'ORGANIZATION',
-            'owner_field_name' => 'organization',
-            'owner_column_name' => 'organization_id',
-        ],
-    ]
-)]
-```
-Use for: Shared resources across departments within an organization.
-**Organization field is MANDATORY.** Extend `OrganizationAwareTrait` for lifecycle hooks.
-
-### BUSINESS_UNIT
-Department/team scoped; implies multi-organization:
-```php
-#[Config(
-    defaultValues: [
-        'ownership' => [
-            'owner_type' => 'BUSINESS_UNIT',
-            'owner_field_name' => 'businessUnit',
-            'owner_column_name' => 'business_unit_id',
-        ],
-    ]
-)]
-```
-Use for: Department-level resources (sales team, support queue).
-**CRITICAL: Both `organization` and `businessUnit` fields are MANDATORY.** The `businessUnit` implies organization context.
+For **GLOBAL**, **ORGANIZATION**, and **BUSINESS_UNIT** ownership configurations, field requirements, and database schema examples, see [ownership-types.md](references/ownership-types.md).
 
 ### USER
 Personal/individual ownership:
@@ -160,8 +116,6 @@ Use for: Personal records (tasks, notes, assigned work).
 - Shared within org, not by department? → ORGANIZATION
 - Department/team owned? → BUSINESS_UNIT (include both org + BU fields)
 - Personal/assigned to user? → USER (include both org + user fields)
-
-For complete ownership type configurations, field requirements, and database schema examples, see [ownership-types.md](references/ownership-types.md).
 
 ## Entity with Ownership Fields (USER type example)
 
@@ -210,6 +164,55 @@ The canonical entity example above demonstrates `ExtendEntityInterface` and `Ext
 1. Implement `ExtendEntityInterface`
 2. Use `ExtendEntityTrait`
 3. The trait provides the magic `__get`/`__set`/`__isset`/`__call` methods for runtime-added fields
+
+## Enum Entities (Option Sets)
+
+Enums in Oro are managed option sets (select or multiselect fields) created via `ExtendExtension` in migrations. They are not standalone entities you define in PHP — instead, you add an enum field to an existing table and Oro generates the backing entity automatically.
+
+### Creating an Enum Field via Migration
+
+```php
+use Doctrine\DBAL\Schema\Schema;
+use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
+use Oro\Bundle\MigrationBundle\Migration\Migration;
+use Oro\Bundle\MigrationBundle\Migration\QueryBag;
+
+class AddDocumentStatusEnum implements Migration, ExtendExtensionAwareInterface
+{
+    use ExtendExtensionAwareTrait;
+
+    #[\Override]
+    public function up(Schema $schema, QueryBag $queries): void
+    {
+        $this->extendExtension->addEnumField(
+            $schema,
+            'acme_demo_document',    // table name
+            'status',                // field name
+            'document_status',       // enum code (unique identifier)
+            false,                   // multiple: false = select, true = multiselect
+            false,                   // immutable
+            [
+                'extend' => ['owner' => ExtendScope::OWNER_CUSTOM],
+            ]
+        );
+    }
+}
+```
+
+### Loading Enum Options
+
+Retrieve available enum choices programmatically:
+```php
+$this->container->get('oro_entity_extend.enum_value_provider')
+    ->getEnumChoices('document_status');
+```
+
+### Constraints
+
+- **Enum codes must be globally unique** across the entire application
+- **Max 21 characters** for the enum code — Oro uses it to generate table names, and exceeding this limit causes silent failures
 
 ## ConfigField Attribute
 
