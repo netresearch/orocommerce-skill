@@ -1,0 +1,8 @@
+name: Auto-merge dependency updates
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  auto-merge:
+    uses: netresearch/skill-repo-skill/.github/workflows/auto-merge-deps.yml@main

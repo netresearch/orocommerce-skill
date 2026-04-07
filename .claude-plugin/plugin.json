@@ -1,0 +1,20 @@
+{
+  "name": "orocommerce-skills",
+  "description": "OroCommerce v6.1 development guidance — entities, grids, API, workflows, frontend, security, integration, and bundle scaffolding",
+  "version": "1.0.0",
+  "skills": [
+    "./skills/oro-api",
+    "./skills/oro-bundle",
+    "./skills/oro-datagrid",
+    "./skills/oro-entity",
+    "./skills/oro-frontend",
+    "./skills/oro-integration",
+    "./skills/oro-security",
+    "./skills/oro-workflow"
+  ],
+  "license": "(MIT AND CC-BY-SA-4.0)",
+  "author": {
+    "name": "Netresearch DTT GmbH",
+    "url": "https://www.netresearch.de"
+  }
+}
