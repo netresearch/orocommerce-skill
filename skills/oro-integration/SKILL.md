@@ -128,91 +128,18 @@ For consumer command options, memory limits, and restart strategies, see [messag
 
 ## Import/Export
 
-OroCommerce provides a framework for bulk import and export of data. Import/export processors convert data between external formats (CSV, JSON) and OroCommerce entities.
+Oro's import/export uses a Spring Batch-inspired pipeline: Reader → Processor → Writer. Each processor handles **one item at a time** (not batches). The framework handles iteration, batching, and persistence.
 
-### Export Processor
+### Architecture
 
-An export processor reads entities from the database and converts them to a format suitable for export:
+- **Export**: Entity → Serializer normalizes → DataConverter → flat array (CSV row)
+- **Import**: Flat array (CSV row) → DataConverter → Serializer denormalizes → Strategy (find/merge/validate) → Entity
 
-```php
-namespace Acme\Bundle\DemoBundle\ImportExport\Processor;
-
-use Oro\Bundle\ImportExportBundle\Processor\ExportProcessor;
-use Oro\Bundle\ImportExportBundle\Context\ContextInterface;
-
-class DocumentExportProcessor extends ExportProcessor
-{
-    #[\Override]
-    public function process(ContextInterface $context)
-    {
-        // Iterate entities, convert to export format
-        $entityIterator = $context->getOption('entityIterator');
-
-        foreach ($entityIterator as $document) {
-            // Convert document to export row
-            $row = [
-                'id' => $document->getId(),
-                'title' => $document->getTitle(),
-                'created_at' => $document->getCreatedAt()->format('Y-m-d H:i:s'),
-            ];
-
-            $this->addToContext($row, $context);
-        }
-
-        return true;
-    }
-
-    #[\Override]
-    public function getProcessedEntityClass(): ?string
-    {
-        return Document::class;
-    }
-}
-```
-
-### Import Processor
-
-An import processor reads data from external format and creates/updates entities:
-
-```php
-namespace Acme\Bundle\DemoBundle\ImportExport\Processor;
-
-use Oro\Bundle\ImportExportBundle\Processor\ImportProcessor;
-use Oro\Bundle\ImportExportBundle\Context\ContextInterface;
-use Doctrine\ORM\EntityManagerInterface;
-
-class DocumentImportProcessor extends ImportProcessor
-{
-    public function __construct(private EntityManagerInterface $em) {}
-
-    #[\Override]
-    public function process(ContextInterface $context)
-    {
-        $data = $context->getValue('data');
-
-        foreach ($data as $row) {
-            $document = new Document();
-            $document->setTitle($row['title'] ?? '');
-            $document->setDescription($row['description'] ?? '');
-
-            $this->em->persist($document);
-        }
-
-        $this->em->flush();
-        return true;
-    }
-
-    #[\Override]
-    public function getProcessedEntityClass(): ?string
-    {
-        return Document::class;
-    }
-}
-```
+Most custom import/export needs only a **DataConverter** and service config — no custom processor class.
 
 ### Data Converters
 
-Converters transform data between entity and import/export format. Implement `DataConverterInterface`:
+Map between external column names and entity field names. Implement `DataConverterInterface`:
 
 ```php
 namespace Acme\Bundle\DemoBundle\ImportExport\Converter;
@@ -222,35 +149,86 @@ use Oro\Bundle\ImportExportBundle\Converter\DataConverterInterface;
 class DocumentDataConverter implements DataConverterInterface
 {
     #[\Override]
-    public function convertToImportFormat(array $exportedRecord, $skipNullValues = true): array
+    public function convertToExportFormat(array $exportedRecord, $skipNullValues = true): array
     {
-        // Convert from entity fields to import row
+        // Normalized entity array → flat CSV columns
         return [
-            'title' => $exportedRecord['title'],
-            'created' => $exportedRecord['created_at']?->format('Y-m-d'),
+            'Document Title' => $exportedRecord['title'] ?? '',
+            'Created Date' => $exportedRecord['createdAt'] ?? '',
         ];
     }
 
     #[\Override]
-    public function convertToExportFormat(array $importedRecord, $skipNullValues = true): array
+    public function convertToImportFormat(array $importedRecord, $skipNullValues = true): array
     {
-        // Convert from import row to entity fields
+        // Flat CSV columns → structured array for serializer denormalization
         return [
-            'title' => $importedRecord['title'] ?? '',
-            'created_at' => new \DateTime($importedRecord['created']),
+            'title' => $importedRecord['Document Title'] ?? '',
+            'createdAt' => $importedRecord['Created Date'] ?? '',
         ];
     }
 }
 ```
 
-Register the converter:
+### Service Registration
+
+Use abstract parent services — no custom processor class needed for standard cases:
 
 ```yaml
 services:
-    acme_demo.importexport.converter.document:
+    # Data Converter
+    acme_demo.importexport.data_converter.document:
         class: Acme\Bundle\DemoBundle\ImportExport\Converter\DocumentDataConverter
+
+    # Export processor (uses parent abstract + your converter)
+    acme_demo.importexport.processor.export.document:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, ['@acme_demo.importexport.data_converter.document']]
         tags:
-            - { name: 'oro_importexport.data_converter' }
+            - { name: oro_importexport.processor, type: export, entity: 'Acme\Bundle\DemoBundle\Entity\Document', alias: acme_document }
+
+    # Import processor (uses parent abstract + converter + strategy)
+    acme_demo.importexport.processor.import.document:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+            - [setDataConverter, ['@acme_demo.importexport.data_converter.document']]
+            - [setStrategy, ['@acme_demo.importexport.strategy.document.add_or_replace']]
+        tags:
+            - { name: oro_importexport.processor, type: import, entity: 'Acme\Bundle\DemoBundle\Entity\Document', alias: acme_document.add_or_replace }
+            - { name: oro_importexport.processor, type: import_validation, entity: 'Acme\Bundle\DemoBundle\Entity\Document', alias: acme_document.add_or_replace }
+
+    # Import strategy (usually extends the configurable add-or-replace)
+    acme_demo.importexport.strategy.document.add_or_replace:
+        parent: oro_importexport.strategy.configurable_add_or_replace
+```
+
+Tag attributes: `type` (`export`, `import`, `import_validation`, `export_template`), `entity` (FQCN), `alias` (unique identifier). Import processors need both `import` and `import_validation` tags.
+
+### Custom Processor (only when needed)
+
+Only create a custom processor class when you need logic beyond what the DataConverter + Strategy provide. Override `process($item)` — the argument is a single entity (export) or single row array (import):
+
+```php
+namespace Acme\Bundle\DemoBundle\ImportExport\Processor;
+
+use Oro\Bundle\ImportExportBundle\Processor\ExportProcessor;
+
+class DocumentExportProcessor extends ExportProcessor
+{
+    #[\Override]
+    public function process($item)
+    {
+        // $item is a single Document entity
+        // Call parent for standard normalize + convert pipeline
+        $result = parent::process($item);
+
+        // Add custom computed fields
+        $result['full_path'] = $item->getCategory()?->getPath() . '/' . $item->getTitle();
+
+        return $result;
+    }
+}
 ```
 
 ## Integration Channels & Transports
@@ -374,31 +352,13 @@ The cron schedule is defined in `getDefaultDefinition()`. Standard Linux cron fo
 
 ## Webhooks
 
-OroCommerce triggers webhooks on entity lifecycle events (create, update, delete). Configure webhook listeners to respond to these events.
+OroCommerce does not provide a built-in webhook framework. To implement outbound webhooks (notify external systems on entity changes), use Doctrine lifecycle events or Oro's message queue:
 
-Implement an event listener to handle webhook events:
+1. Listen to Doctrine `postPersist`/`postUpdate`/`postRemove` events
+2. Send a message to the MQ with the entity change data
+3. A dedicated MQ processor dispatches the HTTP webhook call asynchronously
 
-```php
-namespace Acme\Bundle\DemoBundle\EventListener;
-
-use Oro\Bundle\EntityBundle\Event\EntityStructureOptionsEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
-class WebhookListener implements EventSubscriberInterface
-{
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            'oro.entity.structure.options' => 'onEntityStructureOptions',
-        ];
-    }
-
-    public function onEntityStructureOptions(EntityStructureOptionsEvent $event): void
-    {
-        // Handle webhook event
-    }
-}
-```
+This avoids blocking the request and handles retries via the MQ's built-in retry mechanism.
 
 ## Common Commands
 

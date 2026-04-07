@@ -341,15 +341,22 @@ public function process(Context $context) {
 }
 ```
 
-### Pattern 4: Custom Authorization (security_check, priority: 100)
+### Pattern 4: Object-Level Authorization (data_security_check, priority: 100)
 ```php
-public function process(Context $context) {
+// Use data_security_check, NOT security_check — the entity is only
+// available after load_data has run. security_check is for type-level
+// (class) ACL checks only.
+public function process(ContextInterface $context): void {
     $entity = $context->getResult();
-    if ($entity instanceof Document && $entity->getOwner() !== $this->currentUser) {
-        $context->addError(new Error('Access denied', '403'));
+    if (!$entity instanceof Document) {
+        return;
+    }
+    if ($entity->getOwner()?->getId() !== $this->tokenAccessor->getUserId()) {
+        throw new AccessDeniedException('Access denied');
     }
 }
 ```
+Service tag: `{ name: oro.api.processor, action: get, group: data_security_check, priority: 100 }`
 
 ---
 
@@ -362,7 +369,7 @@ Common context methods available in all processors:
 $action = $context->getAction();              // 'get', 'create', 'update', etc.
 $className = $context->getClassName();        // Full entity class path
 $config = $context->getConfig();              // API config object
-$entity = $context->getResult();              // Entity being processed
+$entity = $context->getResult();              // Entity (only after load_data group)
 $data = $context->getRequestData();           // Client input (POST/PATCH body)
 $id = $context->getId();                      // Entity ID for get/update/delete
 

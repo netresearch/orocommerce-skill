@@ -94,15 +94,15 @@ Register in `Resources/config/oro/bundles.yml`:
 
 ```yaml
 bundles:
-  - { name: Acme\Bundle\DemoBundle\AcmeDemoBundle, priority: 255 }
+  - { name: Acme\Bundle\DemoBundle\AcmeDemoBundle }
 ```
 
-**Priority guidance:**
-- 255: Custom bundles (loads early)
-- 100: Integration bundles
-- 0: Default priority
+**Priority guidance (lower loads first):**
+- Negative values: Core/foundational bundles (e.g., FrameworkBundle: -255)
+- 0: Default — correct for most custom bundles
+- Positive values: Loads later, can override config from earlier bundles
 
-Higher priority loads dependencies first. Set 255 for new bundles unless extending another bundle.
+Omit `priority` for custom bundles unless you need to load after a specific Oro bundle to override its configuration.
 
 ## Service Configuration
 
@@ -173,8 +173,8 @@ system_configuration:
         - acme_demo_connection_settings
 
   fields:
-    demo_api_key:
-      data_type: string
+    demo_enabled:
+      data_type: boolean
       type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
       priority: 10
       ui_only: true
@@ -261,33 +261,44 @@ Decoration is safer than dependency injection modification — it preserves the 
 
 ### Event Listeners
 
-Subscribe to Oro events to react to business logic:
+Use standard Doctrine lifecycle events for entity change hooks:
 
 ```php
-<?php
 namespace Acme\Bundle\DemoBundle\EventListener;
 
-use Oro\Bundle\EntityBundle\ORM\Event\PostFlushEntityEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
 
-class EntityChangeListener implements EventSubscriberInterface
+class DocumentChangeListener
 {
-    public static function getSubscribedEvents(): array
+    public function postPersist(PostPersistEventArgs $args): void
     {
-        return [
-            PostFlushEntityEvent::NAME => 'onPostFlushEntity',
-        ];
+        $entity = $args->getObject();
+        if (!$entity instanceof Document) {
+            return;
+        }
+        // React to new entity creation
     }
 
-    public function onPostFlushEntity(PostFlushEntityEvent $event): void
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
-        $entity = $event->getEntity();
-        // Custom logic
+        $entity = $args->getObject();
+        if (!$entity instanceof Document) {
+            return;
+        }
+        // React to entity update
     }
 }
 ```
 
-Register in services.yml with the `kernel.event_subscriber` tag (auto-subscribed).
+Register with the `doctrine.event_listener` tag:
+
+```yaml
+Acme\Bundle\DemoBundle\EventListener\DocumentChangeListener:
+    tags:
+        - { name: doctrine.event_listener, event: postPersist }
+        - { name: doctrine.event_listener, event: postUpdate }
+```
 
 ## See Also
 

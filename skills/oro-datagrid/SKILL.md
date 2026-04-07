@@ -241,16 +241,17 @@ public function onResultAfter(OrmResultAfter $event) {
     }
 
     $records = $event->getRecords();
-    $documentIds = array_map(fn($r) => $r->getId(), $records);
+    $documentIds = array_map(fn($r) => $r->getValue('id'), $records);
 
     // Fetch related data in a single query
     $comments = $this->doctrineRepository->findCommentsByDocumentIds($documentIds);
 
     // Attach to records
     foreach ($records as $record) {
-        $data = $record->getData();
-        $data['comment_count'] = count($comments[$record->getId()] ?? []);
-        $record->setData($data);
+        $record->setValue(
+            'comment_count',
+            count($comments[$record->getValue('id')] ?? [])
+        );
     }
 }
 ```
