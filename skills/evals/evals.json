@@ -1,0 +1,117 @@
+{
+  "skill_name": "orocommerce-skills",
+  "evals": [
+    {
+      "id": 1,
+      "skill": "oro-bundle",
+      "prompt": "I need to create a new OroCommerce bundle called AcmeInventoryBundle that will handle custom warehouse logic. Set up the full bundle skeleton with DI extension, services.yml, bundles.yml registration, and a navigation entry under the 'Inventory' menu in the back-office sidebar. Also add a system configuration option for 'default_warehouse_code' as a string field.",
+      "expected_output": "A complete bundle skeleton with correct v6.1 patterns: bundle class, DI extension with #[\\Override], bundles.yml with priority 255, services.yml, navigation.yml with menu config, system_configuration.yml with the field, and messages.en.yml for translations.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "skill": "oro-bundle",
+      "prompt": "I need to decorate the existing oro_product.handler.create service with my own handler that adds automatic SKU generation before product creation. Show me how to set up the service decoration in my AcmeProductBundle.",
+      "expected_output": "Correct service decoration pattern in services.yml using 'decorates' key, inner service injection, and a PHP class that wraps the original handler. Should follow v6.1 Symfony DI patterns.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "skill": "oro-entity",
+      "prompt": "Create a new 'WarehouseLocation' entity in our AcmeInventoryBundle. It should have: name (string, required), code (string, unique), capacity (integer), isActive (boolean, default true), and a ManyToOne relation to Organization. The entity needs USER ownership so warehouse managers can only see their own locations. Write the entity class and the migration.",
+      "expected_output": "Entity with PHP 8 ORM attributes (not annotations), #[Config] with ownership set to USER including mandatory organization field, ExtendEntityInterface/Trait, proper table naming (acme_warehouse_location), and a Migration class with createTable.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "skill": "oro-entity",
+      "prompt": "I need to add a custom 'warehouse_notes' text field to the existing OroCommerce Product entity via my AcmeInventoryBundle. Write the migration that extends the Product entity.",
+      "expected_output": "Migration implementing ExtendExtensionAwareInterface, using $this->extendExtension->addColumn() on 'oro_product' table, with correct extend/is_extend/owner options. Should include ExtendScope::OWNER_CUSTOM.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "skill": "oro-datagrid",
+      "prompt": "Create a datagrid for our WarehouseLocation entity that shows name, code, capacity, isActive, and the owner's username. Include filters for name (string), isActive (boolean), and capacity (number range). Add view/edit/delete row actions and a mass delete action. The grid should support inline editing for the 'capacity' and 'isActive' fields.",
+      "expected_output": "Complete datagrids.yml with ORM source joining the owner relation, all columns with correct types, filters, sorters with proper data_name aliases, row actions with icons, mass_actions with acl_resource, and inline_editing configuration.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "skill": "oro-datagrid",
+      "prompt": "I need to add a 'warehouse_code' column to the existing products-grid in OroCommerce. The warehouse code comes from a related WarehouseLocation entity via product.warehouseLocation.code. Use an event listener approach since I don't want to modify the core grid config.",
+      "expected_output": "An event listener class listening to onBuildBefore (to add the column/filter config) and onResultAfter (to efficiently attach the relationship data), plus the service registration with the correct grid event tag.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "skill": "oro-api",
+      "prompt": "Expose our WarehouseLocation entity via the back-office REST API. Include all fields except 'internalNotes', rename 'isActive' to 'active' in the API output, add string filters for name and code, and disable the delete_list action. Also expose it on the storefront API but only with name, code, and active fields (read-only, no create/update/delete).",
+      "expected_output": "Both api.yml and api_frontend.yml configurations. Back-office: entity with field exclusion, property_path rename, filters, disabled delete_list. Storefront: separate config with exclusion policy 'all', only specified fields included, all write actions disabled.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "skill": "oro-api",
+      "prompt": "I need to create a custom API processor that automatically sets the 'lastCheckedAt' timestamp on WarehouseLocation entities whenever they're updated via the API. Hook into the right processor group.",
+      "expected_output": "A processor class, registered as a service with oro.api.processor tag, hooked into the 'transform_data' or 'save_data' group for the 'update' action, with correct priority. Should target only the WarehouseLocation entity class.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "skill": "oro-workflow",
+      "prompt": "Create a warehouse inspection approval workflow for our WarehouseLocation entity. Steps: 'pending_inspection' -> 'under_review' -> 'approved' or 'failed'. The 'approve' transition should only be available to users with the EDIT permission. Add an automatic transition that moves to 'failed' if the inspection isn't completed within the current step for more than 30 days. Include a transition form on 'submit_review' that collects inspector_notes (textarea).",
+      "expected_output": "Complete workflows.yml with steps, transitions, transition_definitions with ACL preconditions, attributes for inspector_notes, transition forms, and the timed/event-based transition pattern.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "skill": "oro-workflow",
+      "prompt": "I need to customize the OroCommerce checkout workflow to add a 'warehouse selection' step before the shipping step. The customer should pick from available warehouses. Show me how to import the base checkout workflow and inject my custom step.",
+      "expected_output": "Workflow config that imports b2b_flow_checkout, adds the custom step with proper placement, preserves is_checkout_workflow metadata, and wires up the new transitions correctly.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "skill": "oro-frontend",
+      "prompt": "Create a custom storefront theme called 'acme-warehouse' that inherits from the default theme. It should have a custom color palette (primary: #1a5276, secondary: #f39c12), a custom logo, and override the product listing page to show a 'warehouse availability' badge next to each product name. Set up the full theme structure with SCSS and layout updates.",
+      "expected_output": "Complete theme structure: theme.yml with parent/groups, assets.yml for SCSS registration, SCSS files in correct 3-folder model (settings/variables/components), color palette using sass:map merge pattern, layout update YAML for product listing with @add and @setBlockTheme, and the Twig template for the badge.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "skill": "oro-frontend",
+      "prompt": "I need to create a JavaScript page component that adds a real-time stock counter to the product view page. When the page loads, it should fetch stock data from our custom API endpoint and update a DOM element. Use the Chaplin.js page component pattern that OroCommerce v6.1 uses.",
+      "expected_output": "A JS page component file following Chaplin patterns, registered in jsmodules.yml, attached to the product view via layout update YAML with data-page-component-module and data-page-component-options attributes.",
+      "files": []
+    },
+    {
+      "id": 13,
+      "skill": "oro-integration",
+      "prompt": "Set up an async message queue processor that handles warehouse stock sync. When a product's stock changes, a message should be sent to the 'acme.warehouse.stock_sync' topic. The processor should fetch the current stock from an external API, update the local WarehouseLocation capacity, and log the result. Include the producer service, processor, and all service registrations.",
+      "expected_output": "Complete MQ setup: a producer service using MessageProducerInterface, a processor implementing MessageProcessorInterface and TopicSubscriberInterface with proper ACK/REJECT returns, service registration with oro.message_queue.client.message_processor tag, and the calling service that triggers the producer.",
+      "files": []
+    },
+    {
+      "id": 14,
+      "skill": "oro-integration",
+      "prompt": "Create an import processor for WarehouseLocation entities that can import from CSV. Include the data converter that maps CSV columns (location_name, location_code, max_capacity, active) to entity fields (name, code, capacity, isActive). Register it so it appears in the Oro import UI.",
+      "expected_output": "Import processor class, data converter with convertToImportFormat/convertToExportFormat, normalizer, and service registration. The CSV column mapping should correctly transform between external and internal field names.",
+      "files": []
+    },
+    {
+      "id": 15,
+      "skill": "oro-security",
+      "prompt": "Set up complete ACL configuration for our WarehouseLocation entity. Define permissions for VIEW, CREATE, EDIT, DELETE in acls.yml. Add Acl attributes to the controller actions. Create a custom 'WAREHOUSE_INSPECT' permission that only applies to WarehouseLocation entities. Make sure the grid and API also respect these permissions.",
+      "expected_output": "acls.yml with entity-type ACLs for CRUD and bindings to controller methods, PHP 8 #[Acl] attributes on controller actions, permissions.yml with WAREHOUSE_INSPECT custom permission targeting the entity, and notes about acl_resource in grid actions and API config.",
+      "files": []
+    },
+    {
+      "id": 16,
+      "skill": "oro-security",
+      "prompt": "I have a custom repository method that fetches WarehouseLocations for a report. It's currently bypassing ACL — all users can see all locations regardless of ownership. Fix it so it respects the user's permission level using the ACL helper.",
+      "expected_output": "Code showing how to inject and use oro_security.acl_helper with $aclHelper->apply($queryBuilder), plus explanation that ACL is NOT automatic on custom queries and must be explicitly applied.",
+      "files": []
+    }
+  ]
+}
