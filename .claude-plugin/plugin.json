@@ -1,7 +1,7 @@
 {
   "name": "orocommerce-skills",
-  "description": "OroCommerce v6.1 development guidance — entities, grids, API, workflows, frontend, security, integration, and bundle scaffolding",
-  "version": "1.0.0",
+  "description": "OroCommerce v6.1 development guidance \u2014 entities, grids, API, workflows, frontend, security, integration, and bundle scaffolding",
+  "version": "1.0.1",
   "skills": [
     "./skills/oro-api",
     "./skills/oro-bundle",
