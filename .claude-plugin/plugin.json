@@ -1,14 +1,20 @@
 {
   "name": "orocommerce-skills",
-  "description": "OroCommerce v6.1 development guidance \u2014 entities, grids, API, workflows, frontend, security, integration, and bundle scaffolding",
-  "version": "1.0.1",
+  "description": "OroCommerce v6.1 development and testing guidance — entities, grids, API, workflows, frontend, security, integration, bundle scaffolding, plus Behat integration/e2e/debugging, PHPUnit functional testing, k6 performance, and CI/CD pipelines",
+  "version": "1.1.0",
   "skills": [
     "./skills/oro-api",
+    "./skills/oro-behat-ci",
+    "./skills/oro-behat-debugging",
+    "./skills/oro-behat-testing",
     "./skills/oro-bundle",
     "./skills/oro-datagrid",
+    "./skills/oro-e2e-testing",
     "./skills/oro-entity",
     "./skills/oro-frontend",
+    "./skills/oro-functional-testing",
     "./skills/oro-integration",
+    "./skills/oro-k6-testing",
     "./skills/oro-security",
     "./skills/oro-workflow"
   ],
