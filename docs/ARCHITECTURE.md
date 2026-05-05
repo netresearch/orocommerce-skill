@@ -41,7 +41,7 @@ Testing skills (6):
 
 | Decision | Rationale |
 |----------|-----------|
-| **v6.1 pinned** | All examples use PHP 8 attributes (not annotations), `#[\Override]`, Oro's proprietary MQ (not Symfony Messenger), and v6.1 directory conventions. v7.0 placeholders exist in `references/version-notes.md` (development skills) and `references/v7.0.md` (testing skills). |
+| **v6.1 pinned** | All examples use PHP 8 attributes (not annotations), `#[\Override]`, Oro's proprietary MQ (not Symfony Messenger), and v6.1 directory conventions. v7.0 placeholders exist in per-skill `references/v7.0.md` files for both development and testing skills. |
 | **14-skill split** | 8 development + 6 testing. Each skill corresponds to a recognizable development or testing task so triggering stays precise. |
 | **Lean skills (<500 lines)** | Keeps token usage low on activation. Detailed reference material lives in `references/` and is loaded only when needed. |
 | **Testing split into 6 rather than 1** | Behat integration, Behat debugging, e2e, PHPUnit functional, k6 performance, and CI each have distinct triggering contexts and distinct reference material. A single `oro-testing` skill would over-trigger on unrelated queries and under-serve on depth. |
