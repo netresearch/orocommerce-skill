@@ -1,6 +1,6 @@
 {
   "name": "netresearch/orocommerce-skill",
-  "description": "Claude Code skills for OroCommerce v6.1 development",
+  "description": "Claude Code skills for OroCommerce v6.1 development and testing",
   "type": "ai-agent-skill",
   "license": "(MIT AND CC-BY-SA-4.0)",
   "authors": [
@@ -15,11 +15,17 @@
   "extra": {
     "ai-agent-skill": [
       "skills/oro-api/SKILL.md",
+      "skills/oro-behat-ci/SKILL.md",
+      "skills/oro-behat-debugging/SKILL.md",
+      "skills/oro-behat-testing/SKILL.md",
       "skills/oro-bundle/SKILL.md",
       "skills/oro-datagrid/SKILL.md",
+      "skills/oro-e2e-testing/SKILL.md",
       "skills/oro-entity/SKILL.md",
       "skills/oro-frontend/SKILL.md",
+      "skills/oro-functional-testing/SKILL.md",
       "skills/oro-integration/SKILL.md",
+      "skills/oro-k6-testing/SKILL.md",
       "skills/oro-security/SKILL.md",
       "skills/oro-workflow/SKILL.md"
     ]
