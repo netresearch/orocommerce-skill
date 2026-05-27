@@ -24,6 +24,7 @@ oro_test_framework:
         timeout: 600
         language: en
         formatting_code: en_US
+        no_interaction: true
 ```
 
 ## Field Reference
@@ -40,6 +41,7 @@ oro_test_framework:
 - `timeout` — Install command timeout in seconds; raise on slow CI runners.
 - `language` — UI language code for the seeded user (e.g. `en`).
 - `formatting_code` — Locale code for number/date formatting (e.g. `en_US`). Controls how fixture-loaded dates and prices render in HTML assertions.
+- `no_interaction` — Run install non-interactively (`true`) so CI/test bootstrap never blocks on prompts.
 
 ## Running the Install
 
