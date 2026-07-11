@@ -58,7 +58,6 @@
 - [ ] No skill exceeds 500 lines
 - [ ] Code examples use v6.1 patterns
 - [ ] Evals cover changed skills
-- [ ] version-notes.md updated if version-specific content changed
 - [ ] No project-specific leakage (vendor names, internal hostnames, ticket IDs) in public skills
 
 ## References
