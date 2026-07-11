@@ -35,6 +35,7 @@
 | `composer.json` | Composer distribution metadata |
 | `evals/evals.json` | Eval definitions for all 14 skills |
 | `docs/ARCHITECTURE.md` | Architecture, component map, directory tree |
+| `scripts/check-datagrid-aliases.php` | Validates datagrid `filters`/`sorters` `data_name` against declared query aliases |
 
 ## Commands
 
