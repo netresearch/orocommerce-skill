@@ -109,4 +109,4 @@ workflows:
 
 - `references/workflow-patterns.md` — Attributes, operations, event-triggered transitions, scopes, common patterns, testing/debugging, WorkflowManager API
 - `references/condition-expressions.md` — Full expression reference
-- [v6.1 notes](references/v6.1.md) | [v7.0 notes](references/v7.0.md)
+- [v6.1 notes](references/v6.1.md)

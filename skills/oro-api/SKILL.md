@@ -1,6 +1,6 @@
 ---
 name: oro-api
-description: "Use when exposing OroCommerce v6.1 entities via REST API, configuring api.yml or api_frontend.yml, creating custom API processors, setting up filters/sorters/subresources, or working with JSON:API endpoints. Relevant when the user mentions 'API endpoint', 'expose entity via API', 'api.yml', 'REST API', 'JSON:API', 'storefront API', 'API processor', or any OroCommerce API development task."
+description: "Use when exposing OroCommerce v6.1 entities via REST API, configuring api.yml or api_frontend.yml, creating custom API processors, setting up filters/sorters/subresources, or working with JSON:API endpoints. Relevant when the user mentions 'API endpoint', 'expose entity via API', 'api.yml', 'REST API', 'JSON:API', 'storefront API', or 'API processor'."
 ---
 
 # OroCommerce v6.1 REST API Configuration & Development
@@ -96,4 +96,3 @@ See [processor-groups.md](references/processor-groups.md) for the full group ref
 - [api-patterns.md](references/api-patterns.md) — Filters, sorters, subresources, actions, exclusion policies, complete entity example
 - [processor-groups.md](references/processor-groups.md) — Full processor group reference and execution order
 - [v6.1.md](references/v6.1.md) — v6.1 specifics, backward compatibility, and migration notes
-- [v7.0.md](references/v7.0.md) — v7.0 changes (placeholder)

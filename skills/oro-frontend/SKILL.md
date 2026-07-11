@@ -1,6 +1,6 @@
 ---
 name: oro-frontend
-description: "Use when developing OroCommerce v6.1 frontend — creating custom themes, overriding templates, writing SCSS styles, configuring layout updates, creating JavaScript page components, working with jsmodules.yml or assets.yml, or customizing storefront/back-office appearance. Relevant when the user mentions 'theme', 'SCSS', 'Twig layout', 'template override', 'page component', 'layout update', 'assets.yml', 'jsmodules.yml', 'storefront styling', 'back-office UI', or any OroCommerce frontend development task."
+description: "Use when developing OroCommerce v6.1 frontend — creating custom themes, overriding templates, writing SCSS styles, configuring layout updates, creating JavaScript page components, working with jsmodules.yml or assets.yml, or customizing storefront/back-office appearance. Relevant when the user mentions 'theme', 'SCSS', 'Twig layout', 'template override', 'page component', 'layout update', 'assets.yml', 'jsmodules.yml', 'storefront styling', or 'back-office UI'."
 ---
 
 # OroCommerce v6.1 Frontend Development
@@ -91,4 +91,4 @@ See `references/frontend-patterns.md` for full Chaplin.js examples and `jsmodule
 
 - `references/frontend-patterns.md` — SCSS examples, assets.yml, jsmodules.yml, Chaplin.js, template overrides, build commands, storefront vs. back-office
 - `references/layout-actions.md` — Full layout action reference
-- [v6.1 notes](references/v6.1.md) | [v7.0 notes](references/v7.0.md)
+- [v6.1 notes](references/v6.1.md)

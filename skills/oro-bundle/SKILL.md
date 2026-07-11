@@ -1,6 +1,6 @@
 ---
 name: oro-bundle
-description: "Use when creating a new OroCommerce v6.1 bundle, registering bundles, setting up DependencyInjection extensions, configuring services.yml, adding translations, navigation menus, or system configuration. Also relevant for bundle-level boilerplate like compiler passes, event subscriber registration, and console commands. Also applies to 'create a bundle', 'scaffold', 'new Oro module', or general OroCommerce project structure questions."
+description: "Use when creating a new OroCommerce v6.1 bundle, registering bundles, setting up DependencyInjection extensions, configuring services.yml, adding translations, navigation menus, or system configuration. Also relevant for bundle-level boilerplate like compiler passes, event subscriber registration, and console commands. Also applies to 'create a bundle', 'scaffold', or 'new Oro module'."
 ---
 
 # OroCommerce v6.1 Bundle Development
@@ -132,4 +132,3 @@ Cache clear is **critical** — changes to `bundles.yml`, `services.yml`, or `na
 
 - [bundle-patterns.md](references/bundle-patterns.md) — System config, navigation, translations, compiler passes, event listeners, service decoration
 - [v6.1.md](references/v6.1.md) — v6.1 specifics, migration checklist, and environment notes
-- [v7.0.md](references/v7.0.md) — v7.0 changes (placeholder)

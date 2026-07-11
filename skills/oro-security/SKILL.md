@@ -102,4 +102,4 @@ For `AclAncestor` details, custom permissions, field-level ACL, common patterns,
 
 ## Version Notes
 
-See [permission-matrix.md](references/permission-matrix.md) for the full permission/ownership matrix, [v6.1 notes](references/v6.1.md), and [v7.0 notes](references/v7.0.md).
+See [permission-matrix.md](references/permission-matrix.md) for the full permission/ownership matrix and [v6.1 notes](references/v6.1.md).
