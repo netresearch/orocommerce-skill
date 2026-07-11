@@ -1,6 +1,6 @@
 ---
 name: oro-bundle
-description: "Use when creating a new OroCommerce v6.1 bundle, registering bundles, setting up DependencyInjection extensions, configuring services.yml, adding translations, navigation menus, or system configuration. Also relevant for bundle-level boilerplate like compiler passes, event subscriber registration, and console commands. Also applies to 'create a bundle', 'scaffold', 'new Oro module', or general OroCommerce project structure questions."
+description: "Use when creating a new OroCommerce v6.1 bundle, registering bundles, setting up DependencyInjection extensions, configuring services.yml, adding translations, navigation menus, or system configuration. Also relevant for bundle-level boilerplate like compiler passes, event subscriber registration, and console commands. Also applies to 'create a bundle', 'scaffold', or 'new Oro module'."
 ---
 
 # OroCommerce v6.1 Bundle Development
