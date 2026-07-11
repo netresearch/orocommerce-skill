@@ -191,8 +191,8 @@ php bin/console oro:entity-extend:cache:clear
 # Update database schema
 php bin/console oro:entity-extend:update-schema
 
-# Run migrations
-php bin/console doctrine:migrations:migrate
+# Run migrations (Oro's MigrationBundle, not Doctrine Migrations Bundle)
+php bin/console oro:migration:load
 
 # Verify entities loaded correctly
 php bin/console doctrine:mapping:info
