@@ -91,4 +91,4 @@ See `references/frontend-patterns.md` for full Chaplin.js examples and `jsmodule
 
 - `references/frontend-patterns.md` — SCSS examples, assets.yml, jsmodules.yml, Chaplin.js, template overrides, build commands, storefront vs. back-office
 - `references/layout-actions.md` — Full layout action reference
-- [v6.1 notes](references/v6.1.md) | [v7.0 notes](references/v7.0.md)
+- [v6.1 notes](references/v6.1.md)

@@ -132,4 +132,3 @@ Cache clear is **critical** — changes to `bundles.yml`, `services.yml`, or `na
 
 - [bundle-patterns.md](references/bundle-patterns.md) — System config, navigation, translations, compiler passes, event listeners, service decoration
 - [v6.1.md](references/v6.1.md) — v6.1 specifics, migration checklist, and environment notes
-- [v7.0.md](references/v7.0.md) — v7.0 changes (placeholder)

@@ -101,6 +101,6 @@ For integration channels, transports, webhooks, common commands, and additional 
 
 ## Version Notes
 
-For version-specific details, see [v6.1 notes](references/v6.1.md) | [v7.0 notes](references/v7.0.md).
+For version-specific details, see [v6.1 notes](references/v6.1.md).
 
 See also [message-queue-config.md](references/message-queue-config.md) for MQ configuration options.

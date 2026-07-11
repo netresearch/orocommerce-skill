@@ -71,4 +71,3 @@ Datagrids are compiled into the DIC. After YAML changes: `php bin/console cache:
 - `references/column-types.md` — Full column & filter type reference
 - `references/datagrid-patterns.md` — Inline editing, mass actions, listener examples, join patterns, additional pitfalls
 - `references/v6.1.md` — v6.1 specifics, backward compatibility, and troubleshooting
-- `references/v7.0.md` — v7.0 changes (placeholder)

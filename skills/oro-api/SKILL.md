@@ -96,4 +96,3 @@ See [processor-groups.md](references/processor-groups.md) for the full group ref
 - [api-patterns.md](references/api-patterns.md) — Filters, sorters, subresources, actions, exclusion policies, complete entity example
 - [processor-groups.md](references/processor-groups.md) — Full processor group reference and execution order
 - [v6.1.md](references/v6.1.md) — v6.1 specifics, backward compatibility, and migration notes
-- [v7.0.md](references/v7.0.md) — v7.0 changes (placeholder)

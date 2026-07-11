@@ -112,4 +112,3 @@ Place migrations in `src/Acme/Bundle/DemoBundle/Migrations/Schema/`. Organize by
 - `references/ownership-types.md` — Complete ownership type configurations and field requirements
 - `references/entity-patterns.md` — Enum entities, ConfigField details, extending core entities, repositories, commands, additional pitfalls
 - `references/v6.1.md` — v6.1 specifics, migration checklist, and common failures
-- `references/v7.0.md` — v7.0 changes (placeholder)
