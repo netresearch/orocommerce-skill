@@ -61,7 +61,7 @@ function sectionOf(array $path): ?string
  */
 function recordAliasesFromValue(string $value, string $grid, array &$gridAliases): void
 {
-    if (preg_match_all('/alias\s*:\s*([A-Za-z_]\w*)/', $value, $matches)) {
+    if (preg_match_all('/alias\s*:\s*[\'"]?([A-Za-z_]\w*)[\'"]?/', $value, $matches)) {
         foreach ($matches[1] as $alias) {
             $gridAliases[$grid][$alias] = true;
         }
@@ -119,7 +119,7 @@ function checkFile(string $file): int
         }
 
         $key = $m[1];
-        $value = rtrim($m[2]);
+        $value = trim(rtrim($m[2]), "'\"");
         $stack[] = [$indent, $key];
         $path = array_column($stack, 1);
 
