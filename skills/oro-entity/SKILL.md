@@ -1,6 +1,6 @@
 ---
 name: oro-entity
-description: "Use when creating new OroCommerce v6.1 Doctrine entities, extending existing Oro core entities (like Product, Order, Customer), writing schema migrations, configuring entity ownership (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL), using ConfigField attributes, creating enum entities, or working with ExtendEntity traits. Relevant when the user mentions 'create entity', 'add field to Product', 'write migration', 'extend entity', 'custom field', or entity ownership questions in OroCommerce context."
+description: "Use when creating new OroCommerce v6.1 Doctrine entities, extending existing Oro core entities (like Product, Order, Customer), writing schema migrations, configuring entity ownership (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL), using ConfigField attributes, creating enum entities, or working with ExtendEntity traits. Also use when removing or hard-deleting extend fields/attributes (soft-deleted fields, cannot re-create a deleted field with the same name, RemoveFieldQuery, dropColumn migrations). Relevant when the user mentions 'create entity', 'add field to Product', 'write migration', 'extend entity', 'custom field', 'remove field', 'delete attribute', or entity ownership questions in OroCommerce context."
 ---
 
 # OroCommerce v6.1 Entity Development
@@ -106,9 +106,11 @@ Place migrations in `src/Acme/Bundle/DemoBundle/Migrations/Schema/`. Organize by
 1. **Missing organization field on USER/BUSINESS_UNIT ownership** — Access control fails silently
 2. **Using old `@ORM\` annotations instead of `#[ORM\...]` attributes** — Doctrine won't recognize them in v6.1
 3. **Enum codes over 21 characters** — Oro uses them to generate table names; exceeding the limit causes silent failures
+4. **Expecting admin-UI field delete to remove the column** — it only soft-deletes (config `state = Deleted`, column kept), which blocks re-creating a field with the same name; see `references/removing-extend-fields.md`
 
 ## See Also
 
 - `references/ownership-types.md` — Complete ownership type configurations and field requirements
 - `references/entity-patterns.md` — Enum entities, ConfigField details, extending core entities, repositories, commands, additional pitfalls
 - `references/v6.1.md` — v6.1 specifics, migration checklist, and common failures
+- `references/removing-extend-fields.md` — Hard-removing extend fields/attributes: RemoveFieldQuery, attribute-family cleanup, POST_UP listener migrations, multi-host caveats

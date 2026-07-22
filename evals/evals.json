@@ -409,6 +409,33 @@
         "Provides three concrete remediation steps in order"
       ],
       "files": []
+    },
+    {
+      "id": 31,
+      "eval_name": "oro-entity-31",
+      "skill": "oro-entity",
+      "prompt": "We deleted a custom 'warehouse_notes' extend field from the Product entity via the admin UI, but the column is still in the database and we cannot re-create a field with the same name. Write a migration that properly hard-removes the field. It was also assigned to an attribute family.",
+      "assertions": [
+        "Explains that admin-UI delete only soft-deletes (state Deleted, column kept) and does not drop the column",
+        "Migration uses $table->dropColumn() plus RemoveFieldQuery as a post query (not manual SQL against oro_entity_config_field alone)",
+        "Deletes oro_attribute_group_rel rows for the field before RemoveFieldQuery because that table has no FK",
+        "Does not suggest oro:entity-extend:update-* or Doctrine SchemaTool as a hard-removal mechanism"
+      ],
+      "files": []
+    },
+    {
+      "id": 32,
+      "eval_name": "oro-entity-32",
+      "skill": "oro-entity",
+      "prompt": "Our nightly PIM import creates extend fields on Product, and a field it manages sometimes gets stale with the wrong config type. We cannot know at release time whether the field will still exist at deploy time. Write the removal mechanism so it re-runs on every deployment and cleans up the field only when it deviates from the expected type. We deploy to Oro Cloud with multiple app hosts.",
+      "assertions": [
+        "Rejects a versioned migration with a skip condition (no-op up() is recorded as executed and never re-runs) and uses a MigrationEvents::POST_UP listener adding a versionless migration instead",
+        "Listener priority above -85 so the extend cache/proxy rebuild happens after the removal",
+        "All writes queued as MigrationQuery objects (no direct DB write or ConfigManager flush in up(), which would execute even under --dry-run)",
+        "Guard declares the target config type and removes on deviation, not remove-while-known-wrong-type",
+        "Notes that a manually run console command rebuilds caches only on its own host in multi-host setups, so the removal must run in the platform:update deployment window"
+      ],
+      "files": []
     }
   ]
 }
