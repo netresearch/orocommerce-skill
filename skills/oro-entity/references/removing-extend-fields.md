@@ -48,6 +48,9 @@ class RemoveWarehouseNotesField implements Migration
 `oro_attribute_group_rel.entity_config_field_id` has **no foreign key**. Hard-deleting the field config row orphans the attribute-family assignments. Delete those rows explicitly *before* `RemoveFieldQuery`:
 
 ```php
+use Doctrine\DBAL\Types\Types;
+use Oro\Bundle\MigrationBundle\Migration\ParametrizedSqlMigrationQuery;
+
 $queries->addPostQuery(new ParametrizedSqlMigrationQuery(
     'DELETE FROM oro_attribute_group_rel WHERE entity_config_field_id IN (
         SELECT f.id FROM oro_entity_config_field f
