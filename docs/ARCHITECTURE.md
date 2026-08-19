@@ -43,7 +43,7 @@ Testing skills (6):
 |----------|-----------|
 | **v6.1 pinned** | All examples use PHP 8 attributes (not annotations), `#[\Override]`, Oro's proprietary MQ (not Symfony Messenger), and v6.1 directory conventions. The 6 testing skills carry researched `references/v7.0.md` notes on the 7.1-dev master branch; the 8 development skills had only empty "TBD" placeholders there and no longer carry the file. |
 | **14-skill split** | 8 development + 6 testing. Each skill corresponds to a recognizable development or testing task so triggering stays precise. |
-| **Lean skills (<500 lines)** | Keeps token usage low on activation. Detailed reference material lives in `references/` and is loaded only when needed. |
+| **Lean skills (<500 words)** | Keeps token usage low on activation — the cap the shared validator enforces is words, not lines. Detailed reference material lives in `references/` and is loaded only when needed. |
 | **Testing split into 6 rather than 1** | Behat integration, Behat debugging, e2e, PHPUnit functional, k6 performance, and CI each have distinct triggering contexts and distinct reference material. A single `oro-testing` skill would over-trigger on unrelated queries and under-serve on depth. |
 | **Split licensing** | Code/tooling under MIT for maximum reuse; skill content under CC BY-SA 4.0 to ensure attribution and share-alike for knowledge artifacts. |
 | **Audience: Oro-experienced devs** | Skills assume Symfony/Oro knowledge. Focus on correctness and non-obvious pitfalls, not tutorials. |
@@ -59,10 +59,10 @@ Testing skills (6):
 
 All skill content verified against official OroCommerce v6.1 docs:
 
-- https://doc.oroinc.com/backend/
-- https://doc.oroinc.com/frontend/
-- https://doc.oroinc.com/bundles/
-- https://doc.oroinc.com/backend/extension/create-bundle/
-- https://doc.oroinc.com/backend/entities/create-entities/
-- https://github.com/oroinc/platform
-- https://github.com/oroinc/orocommerce
+- <https://doc.oroinc.com/backend/>
+- <https://doc.oroinc.com/frontend/>
+- <https://doc.oroinc.com/bundles/>
+- <https://doc.oroinc.com/backend/extension/create-bundle/>
+- <https://doc.oroinc.com/backend/entities/create-entities/>
+- <https://github.com/oroinc/platform>
+- <https://github.com/oroinc/orocommerce>
