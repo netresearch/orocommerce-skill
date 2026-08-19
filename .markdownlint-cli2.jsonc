@@ -1,0 +1,18 @@
+{
+  // Same rule set the shared validate.yml injects when a repo ships no config
+  // (netresearch/skill-repo-skill, "Markdown lint defaults"). Without this file
+  // the pre-commit hook ran with markdownlint's stock rules and failed on every
+  // SKILL.md in the repo, including untouched ones — MD013 alone flags each
+  // prose line over 80 characters, which is how all of these are written.
+  // Keeping the file here makes the local hook agree with CI instead of being
+  // strictly stricter and therefore unusable.
+  "config": {
+    "MD013": false,
+    "MD024": false,
+    "MD033": false,
+    "MD036": false,
+    "MD040": false,
+    "MD041": false,
+    "MD060": false
+  }
+}

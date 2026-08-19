@@ -46,7 +46,7 @@
 
 ## Rules
 
-- **SKILL.md**: YAML frontmatter (`name`, `description`, `version`), max 500 lines, overflow in `references/`
+- **SKILL.md**: YAML frontmatter (`name`, `description`, `version`), **max 500 words** (`wc -w`, frontmatter included — what the shared validator counts, not lines), overflow in `references/`
 - **Code examples**: OroCommerce v6.1 only — PHP 8 attributes, `#[\Override]`, not annotations
 - **Licensing**: Code = MIT, content = CC-BY-SA-4.0, entity = `Netresearch DTT GmbH`
 - **Commits**: Conventional commits format
@@ -56,7 +56,7 @@
 
 - [ ] SKILL.md files have valid YAML frontmatter
 - [ ] plugin.json lists all skill directories
-- [ ] No skill exceeds 500 lines
+- [ ] No SKILL.md exceeds 500 **words** (`wc -w skills/*/SKILL.md`)
 - [ ] Code examples use v6.1 patterns
 - [ ] Evals cover changed skills
 - [ ] No project-specific leakage (vendor names, internal hostnames, ticket IDs) in public skills
