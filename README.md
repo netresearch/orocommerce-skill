@@ -37,6 +37,10 @@ git clone https://github.com/netresearch/orocommerce-skills.git ~/.claude/plugin
 composer require netresearch/orocommerce-skills
 ```
 
+## Related resources
+
+- [oroinc/ai-upgrade](https://github.com/oroinc/ai-upgrade) — Oro's own Claude Code upgrade kit (package + project upgrade pipelines, 6.1 → 7.0 BC corpus). Complements these domain skills for major-version upgrade work; the Netresearch bundle-upgrade workflow lives in the internal `oro-bundle-upgrade-skill`.
+
 ## Requirements
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI
