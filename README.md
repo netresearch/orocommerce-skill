@@ -1,17 +1,23 @@
 # OroCommerce Skills for Claude Code
 
-A Claude Code plugin providing 8 domain-specific skills for OroCommerce v6.1 development. Each skill delivers accurate, version-pinned guidance for common development tasks — from entity creation and datagrid configuration to API design, workflow setup, and security hardening. Built for Oro-experienced developers who need correctness and awareness of non-obvious pitfalls rather than introductory tutorials.
+A Claude Code plugin providing 14 domain-specific skills for OroCommerce v6.1 development. Each skill delivers accurate, version-pinned guidance for common development tasks — from entity creation and datagrid configuration to API design, workflow setup, and security hardening. Built for Oro-experienced developers who need correctness and awareness of non-obvious pitfalls rather than introductory tutorials.
 
 ## Skills
 
 | Skill | Description |
 |-------|-------------|
 | **oro-api** | REST API configuration via `api.yml` / `api_frontend.yml`, processors, and resource policies |
+| **oro-behat-ci** | Behat in CI/CD pipelines — compose fanout, headless Chrome, consumer parallelization, artifacts |
+| **oro-behat-debugging** | Debugging failing or flaky Behat scenarios — AJAX races, isolation, screenshots, log forensics |
+| **oro-behat-testing** | Writing and configuring Behat tests — suites, contexts, elements, Alice fixtures |
 | **oro-bundle** | Bundle scaffolding, dependency injection, service configuration, navigation, and system config |
 | **oro-datagrid** | Datagrid YAML configuration — columns, filters, sorters, properties, and mass actions |
+| **oro-e2e-testing** | Behat against deployed environments — skip-isolators, secrets handling, remote ChromeDriver, healers |
 | **oro-entity** | Entity creation with ownership, `ExtendEntityInterface`, field config, and migrations |
 | **oro-frontend** | Theme setup, SCSS, Twig layout updates, and Chaplin.js view integration |
+| **oro-functional-testing** | PHPUnit functional tests — WebTestCase, fixtures, dbIsolation, API/datagrid/command testing |
 | **oro-integration** | Message queue consumers, import/export, integration connectors, and cron jobs |
+| **oro-k6-testing** | k6 performance and load testing — storefront benchmarks, checkout scenarios, cache warm-up |
 | **oro-security** | ACL annotations, permission configuration, access rules, and field-level ACL |
 | **oro-workflow** | Workflow definitions, transitions, transition actions, and checkout customization |
 
@@ -36,6 +42,10 @@ git clone https://github.com/netresearch/orocommerce-skills.git ~/.claude/plugin
 ```bash
 composer require netresearch/orocommerce-skills
 ```
+
+## Related resources
+
+- [oroinc/ai-upgrade](https://github.com/oroinc/ai-upgrade) — Oro's own Claude Code upgrade kit (package + project upgrade pipelines, 6.1 → 7.0 BC corpus). Complements these domain skills for major-version upgrade work; the Netresearch bundle-upgrade workflow lives in the internal `oro-bundle-upgrade-skill`.
 
 ## Requirements
 
