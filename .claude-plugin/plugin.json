@@ -1,7 +1,12 @@
 {
   "name": "orocommerce-skills",
+  "version": "1.4.1",
   "description": "OroCommerce v6.1 development and testing guidance — entities, grids, API, workflows, frontend, security, integration, bundle scaffolding, plus Behat integration/e2e/debugging, PHPUnit functional testing, k6 performance, and CI/CD pipelines",
-  "version": "1.4.0",
+  "author": {
+    "name": "Netresearch DTT GmbH",
+    "url": "https://www.netresearch.de"
+  },
+  "license": "(MIT AND CC-BY-SA-4.0)",
   "skills": [
     "./skills/oro-api",
     "./skills/oro-behat-ci",
@@ -17,10 +22,5 @@
     "./skills/oro-k6-testing",
     "./skills/oro-security",
     "./skills/oro-workflow"
-  ],
-  "license": "(MIT AND CC-BY-SA-4.0)",
-  "author": {
-    "name": "Netresearch DTT GmbH",
-    "url": "https://www.netresearch.de"
-  }
+  ]
 }
