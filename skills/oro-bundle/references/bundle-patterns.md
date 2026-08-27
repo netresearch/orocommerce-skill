@@ -4,7 +4,7 @@ Detailed configuration examples for OroCommerce bundle development. See the main
 
 ## System Configuration
 
-Add admin settings via `Resources/config/system_configuration.yml`:
+Add admin settings via `Resources/config/oro/system_configuration.yml`:
 
 ```yaml
 system_configuration:
@@ -47,7 +47,7 @@ $apiKey = $this->configProvider->get('demo_api_key');
 
 ## Navigation Menu Configuration
 
-Create `Resources/config/navigation.yml` to add menu items:
+Create `Resources/config/oro/navigation.yml` to add menu items:
 
 ```yaml
 oro_navigation_elements:

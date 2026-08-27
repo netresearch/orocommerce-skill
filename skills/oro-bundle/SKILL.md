@@ -15,10 +15,10 @@ src/Acme/Bundle/DemoBundle/
 ├── Resources/
 │   ├── config/
 │   │   ├── oro/
-│   │   │   └── bundles.yml
-│   │   ├── services.yml
-│   │   ├── navigation.yml
-│   │   └── system_configuration.yml
+│   │   │   ├── bundles.yml
+│   │   │   ├── navigation.yml
+│   │   │   └── system_configuration.yml
+│   │   └── services.yml
 │   ├── translations/
 │   │   └── messages.en.yml
 │   └── views/
