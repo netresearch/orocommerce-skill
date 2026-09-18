@@ -1,6 +1,6 @@
 ---
 name: oro-entity
-description: "Use when creating new OroCommerce v6.1 Doctrine entities, extending existing Oro core entities (like Product, Order, Customer), writing schema migrations, configuring entity ownership (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL), using ConfigField attributes, creating enum entities, or working with ExtendEntity traits. Also use when removing or hard-deleting extend fields/attributes (soft-deleted fields, cannot re-create a deleted field with the same name, RemoveFieldQuery, dropColumn migrations). Relevant when the user mentions 'create entity', 'add field to Product', 'write migration', 'extend entity', 'custom field', 'remove field', 'delete attribute', or entity ownership questions in OroCommerce context."
+description: "Use when creating OroCommerce v6.1 Doctrine entities, extending Oro core entities (Product, Order, Customer), writing schema migrations, configuring ownership (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL), ConfigField attributes, enum entities, ExtendEntity traits, or removing/hard-deleting extend fields and attributes (soft-delete, RemoveFieldQuery, dropColumn). Triggers on 'create entity', 'add field to Product', 'write migration', 'extend entity', 'custom field', 'remove field', 'delete attribute'."
 ---
 
 # OroCommerce v6.1 Entity Development
@@ -65,7 +65,7 @@ class Document implements ExtendEntityInterface
 
 ## ExtendEntityInterface
 
-Use `ExtendEntityInterface` + `ExtendEntityTrait` only when admin users need to add custom fields at runtime via Entity Management (System -> Entity Management). The trait provides magic `__get`/`__set`/`__isset`/`__call` for runtime-added fields. Standard entities that won't be extended at runtime don't need it.
+Use `ExtendEntityInterface` + `ExtendEntityTrait` only when admins add fields at runtime via System → Entity Management; the trait supplies the magic `__get`/`__set`/`__isset`/`__call` for them. Entities not extended at runtime do not need it.
 
 ## Ownership Decision Tree
 
@@ -78,28 +78,7 @@ Use `ExtendEntityInterface` + `ExtendEntityTrait` only when admin users need to 
 
 ## Migration: Creating a Table
 
-```php
-namespace Acme\Bundle\DemoBundle\Migrations\Schema\v1_0;
-
-use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\MigrationBundle\Migration\Migration;
-use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-
-class CreateDocumentTable implements Migration
-{
-    public function up(Schema $schema, QueryBag $queries): void
-    {
-        $table = $schema->createTable('acme_demo_document');
-        $table->addColumn('id', 'integer', ['autoincrement' => true]);
-        $table->addColumn('subject', 'string', ['length' => 255]);
-        $table->addColumn('organization_id', 'integer', ['notnull' => false]);
-        $table->addColumn('owner_id', 'integer', ['notnull' => false]);
-        $table->setPrimaryKey(['id']);
-    }
-}
-```
-
-Place migrations in `src/Acme/Bundle/DemoBundle/Migrations/Schema/`. Organize by version subdirectories (`v1_0/`, `v1_1/`).
+Migrations live in `src/Acme/Bundle/DemoBundle/Migrations/Schema/`, one subdirectory per version (`v1_0/`, `v1_1/`). A `Migration` implementation builds the table in `up(Schema $schema, QueryBag $queries)` — worked example, including the ownership columns a USER/BUSINESS_UNIT entity needs, in `references/v6.1.md`.
 
 ## Key Pitfalls
 
@@ -110,7 +89,7 @@ Place migrations in `src/Acme/Bundle/DemoBundle/Migrations/Schema/`. Organize by
 
 ## See Also
 
-- `references/ownership-types.md` — Complete ownership type configurations and field requirements
-- `references/entity-patterns.md` — Enum entities, ConfigField details, extending core entities, repositories, commands, additional pitfalls
-- `references/v6.1.md` — v6.1 specifics, migration checklist, and common failures
-- `references/removing-extend-fields.md` — Hard-removing extend fields/attributes: RemoveFieldQuery, attribute-family cleanup, POST_UP listener migrations, multi-host caveats
+- `references/ownership-types.md` — all four ownership types and their field requirements
+- `references/entity-patterns.md` — enum entities, ConfigField, extending core entities, repositories, commands
+- `references/v6.1.md` — v6.1 specifics, the migration example, common failures
+- `references/removing-extend-fields.md` — RemoveFieldQuery, attribute-family cleanup, POST_UP listeners, multi-host caveats

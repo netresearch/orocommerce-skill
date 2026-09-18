@@ -137,3 +137,13 @@ default:
 ```
 
 Never commit `behat.yml`; it will override base_url and browser config for everyone else.
+
+## behat.yml.dist vs behat.yml (precedence)
+
+`behat.yml.dist` is committed with shared defaults; a gitignored `behat.yml` overrides per-developer settings (`base_url`, Chrome paths). `bin/behat` prefers `behat.yml`, else the `.dist`. Never commit it.
+
+`config/config_behat_test.yml` is a different thing: **application** config, active when a feature is tagged `@behat-test-env` and the runner gets `--behat-test-env` — for swapping services or enabling test-only bundles (`references/feature-tag-mocking.md`).
+
+## Elements instead of raw selectors
+
+A CSS selector embedded in a step definition works today and is fragile the moment the template changes — and it fails in as many step files as copied it. Declare the element once under `elements:` in `behat.yml` and refer to it by name: the selector then lives in one place, and a template change breaks loudly there instead of quietly everywhere.
