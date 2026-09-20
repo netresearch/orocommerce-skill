@@ -1,6 +1,6 @@
 {
   "name": "orocommerce-skills",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "OroCommerce v6.1 development and testing guidance — entities, grids, API, workflows, frontend, security, integration, bundle scaffolding, plus Behat integration/e2e/debugging, PHPUnit functional testing, k6 performance, and CI/CD pipelines",
   "author": {
     "name": "Netresearch DTT GmbH",
