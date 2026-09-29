@@ -68,4 +68,6 @@
 ## References
 
 - [Architecture](docs/ARCHITECTURE.md)
+- [Security assurance case](docs/SECURITY-ASSURANCE.md)
+- [Contributing](CONTRIBUTING.md) — tests, dependencies, governance and the checks on pull requests
 - [Active Plans](docs/exec-plans/active/)
