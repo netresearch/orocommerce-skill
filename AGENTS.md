@@ -43,6 +43,7 @@
 |---------|---------|
 | `claude plugin validate` | Validate plugin.json and skill structure |
 | `make verify-harness` | Verify harness consistency |
+| `php tests/check-datagrid-aliases-test.php` | Behavioural tests for `scripts/check-datagrid-aliases.php` (CI: `.github/workflows/tests.yml`) |
 
 ## Rules
 
