@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
+
+# Block-style from list and a flow-style join item.
+datagrids:
+    acme-blog-posts-grid:
+        source:
+            type: orm
+            query:
+                select:
+                    - d.id
+                    - a.name as authorName
+                from:
+                    - table: Acme\Bundle\BlogBundle\Entity\Post
+                      alias: d
+                join:
+                    left:
+                        - {join: d.author, alias: a}
+        sorters:
+            columns:
+                authorName:
+                    data_name: a.name
+        filters:
+            columns:
+                id:
+                    type: number
+                    data_name: d.id

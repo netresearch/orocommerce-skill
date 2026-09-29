@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
+
+# An alias declared by one grid must not satisfy a data_name in another.
+datagrids:
+    acme-authors-grid:
+        source:
+            type: orm
+            query:
+                from:
+                    - {table: Acme\Bundle\BlogBundle\Entity\Author, alias: a}
+        sorters:
+            columns:
+                name:
+                    data_name: a.name
+    acme-posts-grid:
+        source:
+            type: orm
+            query:
+                from:
+                    - {table: Acme\Bundle\BlogBundle\Entity\Post, alias: p}
+        sorters:
+            columns:
+                name:
+                    data_name: a.name

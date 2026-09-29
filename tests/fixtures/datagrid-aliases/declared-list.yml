@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
+
+# Every alias notation the checker reads, reported back in "declared:".
+datagrids:
+    acme-inline-grid:
+        source:
+            type: orm
+            query:
+                from: [{table: Acme\Bundle\BlogBundle\Entity\Post, alias: d}]
+        filters:
+            columns:
+                subject:
+                    data_name: x.subject
+    acme-block-grid:
+        source:
+            type: orm
+            query:
+                from:
+                    - table: Acme\Bundle\BlogBundle\Entity\Post
+                      alias: p
+                join:
+                    left:
+                        - {join: p.author, alias: a}
+                    inner:
+                        - join: p.category
+                          alias: c
+        sorters:
+            columns:
+                subject:
+                    data_name: x.subject
