@@ -17,6 +17,7 @@ Add a new block to the layout.
 ```
 
 **Parameters:**
+
 - `id` (required): Unique block identifier
 - `parentId` (required): Parent block ID
 - `blockType` (required): Block type (e.g., 'text', 'container', 'product_list')
@@ -33,6 +34,7 @@ Remove a block and its children from the layout.
 ```
 
 **Parameters:**
+
 - `id` (required): Block ID to remove
 
 Removing a parent block removes all children. This is useful for disabling inherited blocks from parent themes.
@@ -49,6 +51,7 @@ Relocate a block to a different parent or position.
 ```
 
 **Parameters:**
+
 - `id` (required): Block ID to move
 - `parentId` (optional): New parent block ID (if not specified, parent unchanged)
 - `sibling` (optional): New position among siblings
@@ -80,6 +83,7 @@ Add multiple blocks in a hierarchy in a single action.
 ```
 
 **Parameters:**
+
 - `node` (required): Root node definition
   - `parentId` (required): Parent block ID
   - `blockType` (required): Block type
@@ -100,6 +104,7 @@ Update an existing block's options.
 ```
 
 **Parameters:**
+
 - `id` (required): Block ID
 - `optionName` (required): Option key
 - `optionValue` (required): New value
@@ -118,6 +123,7 @@ Append a value to an existing option (useful for arrays/lists).
 ```
 
 **Parameters:**
+
 - `id` (required): Block ID
 - `optionName` (required): Option key (should be an array)
 - `optionValue` (required): Value to append
@@ -133,6 +139,7 @@ Set the Twig template file(s) for rendering blocks.
 ```
 
 **Parameters:**
+
 - `themes` (required): Template file name or path
 - `blocks` (optional): Array of specific block type names. If omitted, applies to all blocks.
 
@@ -153,6 +160,7 @@ Set multiple options on a block at once.
 ```
 
 **Parameters:**
+
 - `id` (required): Block ID
 - `options` (required): Object/hash of options to set
 

@@ -99,6 +99,7 @@ workflows:
 2. **Import path correctness**: Reference the original workflow name exactly. Typos silently fail without error.
 
 3. **Condition syntax**: Conditions use `@` prefix for functions and `$` prefix for attributes. Missing either causes parsing errors:
+
    ```yaml
    - '@eq': [$is_manager, true]  # Correct
    - 'eq': [$is_manager, true]   # Wrong — no @ prefix

@@ -116,6 +116,7 @@ options:
 ```
 
 Inline editing requires:
+
 1. Entity class reference
 2. API endpoint that accepts PATCH
 3. Column-specific configuration for form types

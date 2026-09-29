@@ -209,12 +209,14 @@ Symfony's bundle override mechanism automatically uses this instead of the origi
 ## Storefront vs. Back-Office
 
 **Storefront:**
+
 - Server-rendered, not a single-page app
 - SEO-optimized (traditional form submissions)
 - Don't use client-side routing (Backbone.Router)
 - Page components are lightweight, augmenting server HTML
 
 **Back-Office:**
+
 - SPA-like experience with Chaplin routing
 - Client-side navigation within the app
 - Heavier JavaScript, form handling via AJAX

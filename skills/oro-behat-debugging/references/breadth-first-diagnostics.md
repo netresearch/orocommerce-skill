@@ -11,6 +11,7 @@ Human asks: *"can you add more diagnose to see ALL possible culprits and not do 
 ## Pattern
 
 Add a temporary `@Then I dump X for :arg on :arg` step to a Context. It:
+
 1. Resolves the entities under investigation (product, website, cart, etc.).
 2. Queries every related table via DBAL (rule + resolved, chain tables, scopes).
 3. Optionally queries Elasticsearch per-website-index for the entity presence.

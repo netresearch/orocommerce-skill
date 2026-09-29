@@ -39,6 +39,7 @@ class AddDocumentStatusEnum implements Migration, ExtendExtensionAwareInterface
 ### Loading Enum Options
 
 Retrieve available enum choices programmatically:
+
 ```php
 $this->container->get('oro_entity_extend.enum_value_provider')
     ->getEnumChoices('document_status');
@@ -70,6 +71,7 @@ private $email;
 ```
 
 Common options:
+
 - `auditable: true` — Track changes in audit log
 - `identity: true` — Use for import/export identity matching
 - `order: N` — Column order in import/export

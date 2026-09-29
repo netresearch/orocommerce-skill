@@ -19,6 +19,7 @@ api:
 ```
 
 **Policies:**
+
 - `none` (default) — Include all fields; exclude listed ones
 - `all` — Exclude all fields; include listed ones
 - `custom_fields` — Exclude dynamic custom fields; include entity properties

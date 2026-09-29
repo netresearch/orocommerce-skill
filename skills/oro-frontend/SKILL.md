@@ -40,6 +40,7 @@ rtl_support: true
 ## SCSS Organization — 3-Folder Compilation Order
 
 Oro enforces a **strict compilation order**. Violating it causes build failures:
+
 1. `settings/` — Mixins, functions, reusable utilities
 2. `variables/` — Configuration variables, color palettes
 3. `components/` — Component styles (BEM: `.block__element--modifier`)

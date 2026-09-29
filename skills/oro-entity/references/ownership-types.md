@@ -16,15 +16,18 @@
 ## Ownership Type Details
 
 ### GLOBAL
+
 System-wide scope. No ownership tracking.
 
 **When to use:**
+
 - Reference data (product types, statuses, enumerations)
 - System settings and configuration
 - Global master data (currencies, units of measure)
 - Shared taxonomies across all organizations
 
 **Configuration:**
+
 ```php
 #[Config(
     defaultValues: [
@@ -45,6 +48,7 @@ class ProductType
 ```
 
 **Database schema:**
+
 ```php
 $table->addColumn('id', 'integer', ['autoincrement' => true]);
 $table->addColumn('name', 'string', ['length' => 255]);
@@ -52,11 +56,13 @@ $table->addColumn('name', 'string', ['length' => 255]);
 ```
 
 **Access control:**
+
 - All users in all organizations can read
 - Only admin users can modify
 - No row-level filtering
 
 **Queries:**
+
 ```php
 // Simple, no filtering needed
 $products = $this->entityManager
@@ -67,15 +73,18 @@ $products = $this->entityManager
 ---
 
 ### ORGANIZATION
+
 Multi-organization scope. Shared within an organization but isolated between them.
 
 **When to use:**
+
 - Shared resources across departments within an organization
 - Organization-level catalogs or configurations
 - Shared documents, templates, or policies
 - Contracts, agreements that apply org-wide
 
 **Configuration:**
+
 ```php
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
@@ -113,6 +122,7 @@ class Catalog
 ```
 
 **Database schema:**
+
 ```php
 $table->addColumn('id', 'integer', ['autoincrement' => true]);
 $table->addColumn('name', 'string', ['length' => 255]);
@@ -121,11 +131,13 @@ $table->addIndex(['organization_id'], 'idx_org');
 ```
 
 **Access control:**
+
 - Users see only catalogs in their organization
 - Organization admins can modify catalogs
 - Row filtering by organization applied automatically
 
 **Queries:**
+
 ```php
 // Oro's ACL automatically filters by current organization
 $catalogs = $this->entityManager
@@ -141,15 +153,18 @@ $catalogs = $this->entityManager
 ---
 
 ### BUSINESS_UNIT
+
 Department/team scope. Implies multi-organization.
 
 **When to use:**
+
 - Department-owned resources (sales queue, support tickets)
 - Team-specific workflows
 - Hierarchical access (parent BU inherits child BU records)
 - Role-based resource grouping
 
 **Configuration:**
+
 ```php
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
@@ -198,6 +213,7 @@ class SupportTicket
 ```
 
 **Database schema:**
+
 ```php
 $table->addColumn('id', 'integer', ['autoincrement' => true]);
 $table->addColumn('subject', 'string', ['length' => 255]);
@@ -208,12 +224,14 @@ $table->addIndex(['business_unit_id'], 'idx_ticket_bu');
 ```
 
 **Access control:**
+
 - Users see tickets assigned to their business unit
 - Parent business units can see child business unit tickets (hierarchical)
 - Business unit heads/admins can reassign between BUs
 - Row filtering by BU applied automatically
 
 **Queries:**
+
 ```php
 // ACL filters by current user's business unit (and parents)
 $tickets = $this->entityManager
@@ -229,15 +247,18 @@ $tickets = $this->entityManager
 ---
 
 ### USER
+
 Personal/individual ownership. Implies multi-organization.
 
 **When to use:**
+
 - Personal tasks and reminders
 - Draft/unpublished work (draft orders, draft documents)
 - Individual assignments (support tickets assigned to a person)
 - User-specific preferences or settings
 
 **Configuration:**
+
 ```php
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -289,6 +310,7 @@ class Task
 ```
 
 **Database schema:**
+
 ```php
 $table->addColumn('id', 'integer', ['autoincrement' => true]);
 $table->addColumn('title', 'string', ['length' => 255]);
@@ -300,12 +322,14 @@ $table->addIndex(['owner_id'], 'idx_task_owner');
 ```
 
 **Access control:**
+
 - Users see only their own tasks
 - Managers with appropriate permission can see team member tasks
 - Row filtering by owner applied automatically
 - Owner can delete or transfer task
 
 **Queries:**
+
 ```php
 // ACL filters by current user (or team if manager has permission)
 $myTasks = $this->entityManager
@@ -364,6 +388,7 @@ class DraftOrder
 ```
 
 Use this pattern when:
+
 - Record is personally owned but linked to a department for audit/tracking
 - Department managers need visibility into team member's drafts
 
