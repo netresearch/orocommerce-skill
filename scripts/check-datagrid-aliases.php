@@ -104,7 +104,8 @@ function recordAliasesFromValue(string $value, string $grid, array &$gridAliases
  */
 function checkFile(string $file): int
 {
-    $lines = file($file, FILE_IGNORE_NEW_LINES);
+    // Checked first so an unreadable file gets one line, not a PHP warning too.
+    $lines = is_readable($file) ? file($file, FILE_IGNORE_NEW_LINES) : false;
     if ($lines === false) {
         fail("Could not read: {$file}");
     }
