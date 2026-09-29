@@ -180,5 +180,29 @@ check(
     "No datagrids.yml files found under: {$tree}/notes\n",
 );
 
+// A subdirectory the checker cannot open. Built at run time: git cannot store
+// a mode-000 directory. Root reads it anyway, so the case is skipped there.
+$scratch = sys_get_temp_dir() . '/check-datagrid-aliases-test-' . getmypid();
+mkdir($scratch . '/locked', 0o777, true);
+copy(fixture('flow-from.yml'), $scratch . '/datagrids.yml');
+chmod($scratch . '/locked', 0);
+if (is_readable($scratch . '/locked')) {
+    echo "skip an unreadable subdirectory is an input error (running as root)\n";
+} else {
+    [$exit, $stdout, $stderr] = runChecker($scratch);
+    $prefix = "Could not read directory under {$scratch}: ";
+    check(
+        'an unreadable subdirectory is an input error',
+        [$exit, $stdout, str_starts_with($stderr, $prefix) && !str_contains($stderr, 'Fatal') ? $prefix : $stderr],
+        2,
+        '',
+        $prefix,
+    );
+}
+chmod($scratch . '/locked', 0o755);
+rmdir($scratch . '/locked');
+unlink($scratch . '/datagrids.yml');
+rmdir($scratch);
+
 echo "\n{$cases} case(s), {$failures} failed\n";
 exit($failures === 0 ? 0 : 1);

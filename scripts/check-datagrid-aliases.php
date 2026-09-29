@@ -232,13 +232,18 @@ function findDatagridFiles(string $path): array
     }
 
     $files = [];
-    $iterator = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
-    );
-    foreach ($iterator as $file) {
-        if ($file->getFilename() === 'datagrids.yml') {
-            $files[] = $file->getPathname();
+    try {
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
+        );
+        foreach ($iterator as $file) {
+            if ($file->getFilename() === 'datagrids.yml') {
+                $files[] = $file->getPathname();
+            }
         }
+    } catch (UnexpectedValueException $e) {
+        // A directory that cannot be opened is an input error (exit 2), not a crash.
+        fail("Could not read directory under {$path}: " . $e->getMessage());
     }
     sort($files);
 
