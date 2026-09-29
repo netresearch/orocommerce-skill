@@ -24,6 +24,9 @@ declare(strict_types=1);
  *
  * Exit codes: 0 = no mismatches (or --help), 1 = mismatches found,
  * 2 = usage/input error.
+ *
+ * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: Netresearch DTT GmbH
  */
 
 function fail(string $message): void

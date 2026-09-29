@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-behat-ci
 description: "Use when running Oro Commerce 6.1 Behat tests in CI/CD — Jenkins (Oro's canonical platform), GitLab CI (community territory per oroinc/platform#954), or any Docker pipeline. Covers compose fanout, headless Chrome, the formatter combo, consumer parallelisation maths, artifacts and init-image state transfer. Also on sight of .gitlab-ci.yml, Jenkinsfile, compose behat stages, compose-common.yaml. Triggers on 'behat ci', 'gitlab ci oro', 'jenkins oro', 'parallel behat', 'chrome headless', 'init-test image', 'behat hang'."
 ---

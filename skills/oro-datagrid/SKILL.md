@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-datagrid
 description: "Use when creating new OroCommerce v6.1 datagrids, adding columns to existing grids, configuring filters, sorters, actions, mass actions, inline editing, or extending core grids (like product-grid, order-grid, customer-grid). Relevant when the user mentions 'create a grid', 'add column', 'grid filter', 'datagrid', 'data table', 'list view', or grid customization in OroCommerce."
 ---

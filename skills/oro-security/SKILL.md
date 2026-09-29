@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-security
 description: "Use when configuring OroCommerce v6.1 ACL, permissions, and access control — setting up entity permissions (acls.yml), ownership types, Acl/AclAncestor PHP attributes on controllers, custom permissions, field-level ACL, access rules for query filtering, or debugging permission issues. Relevant when the user mentions 'ACL', 'permissions', 'access control', 'ownership', 'security', 'acls.yml', 'field ACL', 'access rules', or any OroCommerce authorization task."
 ---

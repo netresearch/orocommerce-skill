@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-entity
 description: "Use when creating OroCommerce v6.1 Doctrine entities, extending Oro core entities (Product, Order, Customer), writing schema migrations, configuring ownership (USER, BUSINESS_UNIT, ORGANIZATION, GLOBAL), ConfigField attributes, enum entities, ExtendEntity traits, or removing/hard-deleting extend fields and attributes (soft-delete, RemoveFieldQuery, dropColumn). Triggers on 'create entity', 'add field to Product', 'write migration', 'extend entity', 'custom field', 'remove field', 'delete attribute'."
 ---

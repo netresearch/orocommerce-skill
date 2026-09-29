@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-k6-testing
 description: "Use when setting up or running k6 performance tests for Oro Commerce 6.1 — load testing, storefront benchmarking, checkout performance, cache warm-up, or writing k6 scripts for Oro. Also on sight of warmingUpTheApp.js, storefrontTests.js, checkoutTest.js, or metrics like load_product_listing_page_logged_in_user. Triggers on 'k6', 'load test', 'performance test', 'THRESHOLD_95', 'VU', 'grafana k6', 'warm up'."
 ---

@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-bundle
 description: "Use when creating a new OroCommerce v6.1 bundle, registering bundles, setting up DependencyInjection extensions, configuring services.yml, adding translations, navigation menus, or system configuration. Also relevant for bundle-level boilerplate like compiler passes, event subscriber registration, and console commands. Also applies to 'create a bundle', 'scaffold', or 'new Oro module'."
 ---

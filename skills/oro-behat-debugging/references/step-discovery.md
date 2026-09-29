@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Step Discovery, Verbosity, and Tag Filtering
 
 The fastest way to write or debug a scenario is to find out what steps already exist and what Behat is actually doing when it runs them.

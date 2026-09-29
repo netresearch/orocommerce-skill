@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Message Queue Configuration Reference — OroCommerce v6.1
 
 Complete configuration guide for the Oro message queue system in v6.1. Covers transport setup, consumer options, and advanced features.

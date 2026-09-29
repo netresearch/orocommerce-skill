@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # OroCommerce v6.1 Datagrid Column & Filter Types Reference
 
 ## Column Types

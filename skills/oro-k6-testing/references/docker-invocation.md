@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Running k6 via the grafana/k6 Docker Image
 
 The `grafana/k6` image is a tiny Alpine container shipping the `k6` binary at `/usr/bin/k6` as entrypoint. Any `k6` subcommand (`run`, `archive`, `inspect`, `cloud`) works as the first argument.

@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Default k6 Metrics and KPIs
 
 k6 emits nine built-in metrics automatically for every HTTP request, in addition to any custom metrics the script defines. These are always present — set global thresholds on them in `options.thresholds`.

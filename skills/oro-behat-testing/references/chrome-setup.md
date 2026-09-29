@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Chrome and ChromeDriver Setup for Behat
 
 Oro's Behat tests drive a real Chrome instance via Mink + ChromeDriver. A handful of settings are non-negotiable for Docker and headless runs — skipping them causes flaky "element not found" errors that look like test bugs but are actually browser misconfigurations.

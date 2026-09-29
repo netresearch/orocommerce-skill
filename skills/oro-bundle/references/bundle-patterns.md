@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Bundle Configuration Patterns (v6.1)
 
 Detailed configuration examples for OroCommerce bundle development. See the main `SKILL.md` for core concepts and quick-start patterns.

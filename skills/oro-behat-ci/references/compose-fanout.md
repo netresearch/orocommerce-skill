@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Compose Fanout: the Service Mesh Oro Needs
 
 Oro's Behat suite touches HTTP, message queue, search, file storage, and a real browser. Neither Jenkins agents nor GitLab `services:` can model this — you need docker-compose with `include:` fanout.

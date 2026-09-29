@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-behat-testing
 description: "Use when writing, configuring or running Behat integration tests for Oro Commerce 6.1 bundles against a LOCAL app — suites, contexts, elements, page objects, Alice fixtures, `bin/behat`. Covers auto-discovery vs `symfony_bundle` registration, `shared_contexts`, `behat.yml.dist` vs `behat.yml`, `--strict`/`--consumers`/`-s`, `@fixture-Bundle:file.yml`, `oro_behat_extension`, `OroMainContext`, feature-tag mocking, `config_behat_test.yml`, Mink, ChromeDriver, isolators. Triggers on \"suite shows 0 features\", \"element not found\", \"step undefined\", \"fixture not loading\"."
 ---

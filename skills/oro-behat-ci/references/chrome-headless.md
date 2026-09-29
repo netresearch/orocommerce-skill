@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Chrome Headless for Oro Behat in CI
 
 Oro's `@javascript` steps drive a real Chrome instance via ChromeDriver + Mink. In CI you need headless Chrome with a specific flag set — anything else causes vague JS errors, missing UI hooks, or phantom click failures.

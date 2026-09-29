@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Functional Test — Data Fixtures
 
 Oro functional fixtures populate the database with deterministic data before each test case. They come in two flavors (PHP class and YAML) and plug into a dependency-resolving loader that tracks references across fixtures.

@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Layout Actions Reference — OroCommerce v6.1
 
 Layout updates use actions to modify the layout tree at runtime. Actions are YAML entries in `layout:` sections. This reference covers all standard layout actions with examples.

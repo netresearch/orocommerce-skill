@@ -5,9 +5,6 @@ declare(strict_types=1);
 /**
  * Behavioural tests for scripts/check-datagrid-aliases.php.
  *
- * SPDX-License-Identifier: MIT
- * SPDX-FileCopyrightText: Netresearch DTT GmbH
- *
  * Runs the checker as a separate process, the way a user runs it, against the
  * fixtures in tests/fixtures/datagrid-aliases/, and compares exit code, stdout
  * and stderr. No dependencies beyond the PHP CLI.
@@ -16,6 +13,9 @@ declare(strict_types=1);
  *   php tests/check-datagrid-aliases-test.php
  *
  * Exit codes: 0 = every case passed, 1 = at least one case failed.
+ *
+ * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: Netresearch DTT GmbH
  */
 
 const CHECKER = __DIR__ . '/../scripts/check-datagrid-aliases.php';

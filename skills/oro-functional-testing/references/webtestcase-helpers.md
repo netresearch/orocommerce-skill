@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # WebTestCase helper signatures
 
 Memorising these avoids guessing at call sites; every one is an instance method on `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase`.

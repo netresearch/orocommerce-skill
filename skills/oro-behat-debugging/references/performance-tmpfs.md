@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # PostgreSQL on tmpfs for Faster Behat Runs
 
 Advanced: this is not in the official Oro docs. Verified by experience on Linux developer machines. Do not apply to CI or production hosts.

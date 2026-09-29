@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # AJAX Flakiness Root-Causing
 
 "Flaky test" is almost never a test framework problem. It's a race condition the test is silent about. Treat every intermittent failure as a bug to root-cause, not noise to retry around.

@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # OroCommerce Skills for Claude Code
 
 A Claude Code plugin providing 14 domain-specific skills for OroCommerce v6.1 development. Each skill delivers accurate, version-pinned guidance for common development tasks — from entity creation and datagrid configuration to API design, workflow setup, and security hardening. Built for Oro-experienced developers who need correctness and awareness of non-obvious pitfalls rather than introductory tutorials.

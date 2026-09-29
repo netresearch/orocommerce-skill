@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Jenkins: Oro's Canonical CI Patterns
 
 Oro publishes its CI patterns exclusively for Jenkins. The pieces are scattered across three oroinc repos:

@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Custom Oro k6 Metrics
 
 Oro's stock k6 scripts emit 14 named metrics in addition to k6's built-ins. Each is a `Trend` metric (duration in ms) unless noted. Set per-metric thresholds in `options.thresholds` instead of relying on a single global p95 — a slow product listing will otherwise hide behind fast login requests in the aggregate.

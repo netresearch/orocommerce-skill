@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Breadth-First Diagnostic Steps
 
 A behat scenario fails with a "thing missing / empty" symptom. Several plausible gates could be responsible. Don't hypothesise one at a time — write one diagnostic step that dumps every plausible culprit in a single run.

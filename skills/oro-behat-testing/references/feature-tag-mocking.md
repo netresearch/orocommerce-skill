@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Feature-Tag-Aware Mocking
 
 Oro's Behat runner can swap service implementations based on tags on the feature or scenario being executed. This is the supported extension point for stubbing external APIs (payment gateways, shipping rate providers, ERP clients) without hand-rolling network interception.
