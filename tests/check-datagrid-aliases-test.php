@@ -137,6 +137,15 @@ check(
     '',
 );
 
+$file = fixture('comments.yml');
+check(
+    'trailing comments are not part of an alias or data_name',
+    runChecker($file),
+    1,
+    lines([mismatch($file, 25, 'acme-blog-posts-grid', 'filters', 'subject', 'x', 'd, a')]),
+    '',
+);
+
 // --- Directories -----------------------------------------------------------
 
 $tree = fixture('tree');

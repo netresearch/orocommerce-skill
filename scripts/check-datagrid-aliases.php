@@ -57,6 +57,33 @@ function sectionOf(array $path): ?string
 }
 
 /**
+ * Removes a trailing YAML comment: a `#` after whitespace, outside quotes.
+ */
+function stripComment(string $line): string
+{
+    $quote = null;
+    $length = strlen($line);
+    for ($i = 0; $i < $length; $i++) {
+        $char = $line[$i];
+        if ($quote !== null) {
+            if ($char === $quote) {
+                $quote = null;
+            }
+            continue;
+        }
+        if ($char === '"' || $char === "'") {
+            $quote = $char;
+            continue;
+        }
+        if ($char === '#' && $i > 0 && ($line[$i - 1] === ' ' || $line[$i - 1] === "\t")) {
+            return rtrim(substr($line, 0, $i));
+        }
+    }
+
+    return $line;
+}
+
+/**
  * @param array<string, array<string, true>> $gridAliases
  */
 function recordAliasesFromValue(string $value, string $grid, array &$gridAliases): void
@@ -96,6 +123,8 @@ function checkFile(string $file): int
         if ($trimmed === '' || str_starts_with($trimmed, '#')) {
             continue;
         }
+        // "alias: d # posts" declares "d", not "d # posts".
+        $rawLine = stripComment($rawLine);
 
         $indent = strlen($rawLine) - strlen(ltrim($rawLine, ' '));
 
