@@ -170,7 +170,10 @@ check(
 
 // --- Usage and input errors ------------------------------------------------
 
-check('no argument', runChecker(), 2, '', "Usage: check-datagrid-aliases.php <datagrids.yml-file-or-directory>\n");
+$usage = "Usage: check-datagrid-aliases.php <datagrids.yml-file-or-directory>\n";
+check('no argument', runChecker(), 2, '', $usage);
+check('--help prints the usage on stdout', runChecker('--help'), 0, $usage, '');
+check('-h prints the usage on stdout', runChecker('-h'), 0, $usage, '');
 check('missing path', runChecker(fixture('does-not-exist')), 2, '', 'Path not found: ' . fixture('does-not-exist') . "\n");
 check(
     'directory without datagrids.yml',

@@ -22,7 +22,8 @@ declare(strict_types=1);
  * Usage:
  *   php scripts/check-datagrid-aliases.php <datagrids.yml-file-or-directory>
  *
- * Exit codes: 0 = no mismatches, 1 = mismatches found, 2 = usage/input error.
+ * Exit codes: 0 = no mismatches (or --help), 1 = mismatches found,
+ * 2 = usage/input error.
  */
 
 function fail(string $message): void
@@ -252,9 +253,16 @@ function findDatagridFiles(string $path): array
 
 function main(array $argv): int
 {
+    $usage = 'Usage: check-datagrid-aliases.php <datagrids.yml-file-or-directory>';
     $path = $argv[1] ?? null;
-    if ($path === null || $path === '-h' || $path === '--help') {
-        fail('Usage: check-datagrid-aliases.php <datagrids.yml-file-or-directory>');
+    if ($path === '-h' || $path === '--help') {
+        // Help was asked for, so it is output, not a usage error.
+        fwrite(STDOUT, $usage . "\n");
+
+        return 0;
+    }
+    if ($path === null) {
+        fail($usage);
     }
     if (!file_exists($path)) {
         fail("Path not found: {$path}");
