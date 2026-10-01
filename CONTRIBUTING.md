@@ -13,7 +13,7 @@ Install the hooks once after cloning:
 pre-commit install --install-hooks
 ```
 
-The hooks in `.pre-commit-config.yaml` run the same checks as CI: the skill validator from netresearch/skill-repo-skill, version parity, markdownlint, yamllint, actionlint, ruff and ShellCheck. `pre-commit run --all-files` runs them over the whole tree.
+The hooks in `.pre-commit-config.yaml` run the same checks as CI: the skill validator from netresearch/skill-repo-skill, version parity, markdownlint, yamllint, actionlint, ruff and ShellCheck. One difference: the hook lints every Markdown file, while CI's markdownlint step lints only the Markdown files in the repository root. `pre-commit run --all-files` runs them over the whole tree.
 
 ## Tests
 
@@ -60,6 +60,6 @@ Checks that run on every pull request to `main`:
 
 - Skill Validation (`validate.yml`): skill structure, plugin manifest sync, markdownlint, yamllint, actionlint, JSON syntax, plugin and SKILL.md version parity, ShellCheck at severity style, ruff and checkpoint schemas.
 - Eval Validation (`eval-validate.yml`), Harness Verification (`harness-verify.yml`) and Skill Tests (`tests.yml`).
-- CodeQL analysis of the workflow files (`Analyze (actions)`), configured in GitHub code scanning rather than in a workflow file here, and the DCO check.
+- CodeQL analysis of the workflow files (`Analyze (actions)`), configured in GitHub code scanning rather than in a workflow file here, SonarCloud Code Analysis (SonarCloud automatic analysis, also configured outside this repository) and the DCO check.
 
 The workflows in this repository run no dependency-vulnerability check, no Composer Audit, no other SAST tool and no secret scanner on pull requests.

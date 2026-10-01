@@ -31,7 +31,7 @@ The repository ships no server component, no container image, no compiled code a
 - **The user's OroCommerce project.** The checker reads `datagrids.yml` files from the path it is given; their content is input from outside this repository. It parses them line by line with regular expressions (`checkFile()`), not with a YAML parser, so no YAML tag, anchor or object construction is evaluated. When given a directory it reads every file named `datagrids.yml` below it; it does not descend into symlinked directories, and it does read a `datagrids.yml` that is itself a symlink.
 - **Command-line arguments.** The path given to the checker is only opened and printed. `verify-harness.sh` rejects unknown option names and unknown values of `--platform`, `--level` and `--check` with exit 1; an unknown `--format` value falls back to text output. No option value is executed.
 - **The contributor's machine.** `verify-harness.sh` reads `AGENTS.md`, `Makefile`, `composer.json`, `package.json` and `.gitlab-ci.yml` of the current directory and runs `git`. On a GitHub repository without a local pull request template it calls `gh api repos/<org>/.github/contents/pull_request_template.md` with the contributor's `gh` login, `<org>` being taken from `git remote get-url origin`.
-- **Contributors.** Changes reach `main` through pull requests; `main` is protected and requires the checks named in [CONTRIBUTING.md](../CONTRIBUTING.md#governance-and-policies).
+- **Contributors.** Changes reach `main` through pull requests; `main` is protected by branch protection, whose required status checks are a subset of the checks named in [CONTRIBUTING.md](../CONTRIBUTING.md#governance-and-policies).
 - **CI.** Workflows run on GitHub-hosted runners. `validate.yml`, `eval-validate.yml`, `harness-verify.yml` and `tests.yml` call reusable workflows of netresearch/skill-repo-skill that set `permissions: contents: read`; `tests.yml` and `auto-merge-deps.yml` start from `permissions: {}`. `auto-merge-deps.yml` runs on `pull_request_target` and calls the netresearch/.github reusable, which approves and merges pull requests opened by Renovate or Dependabot and does not check out pull request code. `release.yml` runs only on pushed `v*` tags.
 
 ## Threats and countermeasures
@@ -53,7 +53,7 @@ The repository ships no server component, no container image, no compiled code a
 
 ## Secure design principles applied
 
-- **Least privilege:** the checker only reads; the CI callers grant `contents: read` except the auto-merge and release jobs, which get the write scopes their reusable needs.
+- **Least privilege:** the checker only reads; CI runs with `contents: read` (set by the skill-repo-skill reusables and by `tests.yml`) except the auto-merge and release jobs, which get the write scopes their reusable needs.
 - **Fail-safe defaults:** grids the checker cannot judge (`extends`, `extended_from`, no recognised alias) are skipped rather than reported as correct or wrong, and input errors end with exit 2 rather than a partial result.
 - **Economy of mechanism:** the checker is one PHP file without dependencies; the harness checker needs bash, git and the usual text tools.
 - **Open design:** everything the skills tell an agent to do is plain text in `skills/`, reviewable before use.
