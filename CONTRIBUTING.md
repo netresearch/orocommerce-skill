@@ -60,6 +60,7 @@ Checks that run on every pull request to `main`:
 
 - Skill Validation (`validate.yml`): skill structure, plugin manifest sync, markdownlint, yamllint, actionlint, JSON syntax, plugin and SKILL.md version parity, ShellCheck at severity style, ruff and checkpoint schemas.
 - Eval Validation (`eval-validate.yml`), Harness Verification (`harness-verify.yml`) and Skill Tests (`tests.yml`).
-- CodeQL analysis of the workflow files (`Analyze (actions)`), configured in GitHub code scanning rather than in a workflow file here, SonarCloud Code Analysis (SonarCloud automatic analysis, also configured outside this repository) and the DCO check.
+- CodeQL analysis of the workflow files (`Analyze (actions)`), configured in GitHub code scanning rather than in a workflow file here, SonarCloud Code Analysis (SonarCloud automatic analysis, also configured outside this repository), the DCO check and the CodeRabbit review status.
+- Auto-merge dependency PRs (`auto-merge-deps.yml`), skipped unless Renovate or Dependabot opened the pull request.
 
 The workflows in this repository run no dependency-vulnerability check, no Composer Audit, no other SAST tool and no secret scanner on pull requests.
