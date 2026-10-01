@@ -186,20 +186,22 @@ check(
 // A subdirectory the checker cannot open. Built at run time: git cannot store
 // a mode-000 directory. Root reads it anyway, so the case is skipped there.
 $scratch = sys_get_temp_dir() . '/check-datagrid-aliases-test-' . getmypid();
-mkdir($scratch . '/locked', 0o777, true);
+$lockedDir = $scratch . '/locked';
+$lockedFile = $scratch . '/locked.yml';
+mkdir($lockedDir, 0o777, true);
 copy(fixture('flow-from.yml'), $scratch . '/datagrids.yml');
-copy(fixture('flow-from.yml'), $scratch . '/locked.yml');
-chmod($scratch . '/locked.yml', 0);
-chmod($scratch . '/locked', 0);
-if (is_readable($scratch . '/locked')) {
+copy(fixture('flow-from.yml'), $lockedFile);
+chmod($lockedFile, 0);
+chmod($lockedDir, 0);
+if (is_readable($lockedDir)) {
     echo "skip unreadable file and subdirectory are input errors (running as root)\n";
 } else {
     check(
         'an unreadable file is an input error',
-        runChecker($scratch . '/locked.yml'),
+        runChecker($lockedFile),
         2,
         '',
-        "Could not read: {$scratch}/locked.yml\n",
+        "Could not read: {$lockedFile}\n",
     );
     [$exit, $stdout, $stderr] = runChecker($scratch);
     $prefix = "Could not read directory under {$scratch}: ";
@@ -211,9 +213,9 @@ if (is_readable($scratch . '/locked')) {
         $prefix,
     );
 }
-chmod($scratch . '/locked', 0o755);
-rmdir($scratch . '/locked');
-unlink($scratch . '/locked.yml');
+chmod($lockedDir, 0o755);
+rmdir($lockedDir);
+unlink($lockedFile);
 unlink($scratch . '/datagrids.yml');
 rmdir($scratch);
 
