@@ -64,5 +64,5 @@ The repository ships no server component, no container image, no compiled code a
 - The checker covers one pitfall: `data_name` aliases in `filters` and `sorters`. It does not validate a `datagrids.yml` as YAML, does not resolve `extends` or `extended_from`, skips grids without a recognised `from`/`join` alias, and does not read the flow-mapping form `field: { data_name: ... }`. Exit 0 is not evidence that a grid is correct.
 - The checker prints alias names from `alias:` values as they appear in the file.
 - `verify-harness.sh` reports on documentation consistency; it is not a security check.
-- The repository's workflows run no dependency-vulnerability scan, SAST tool or secret scan on pull requests; CodeQL (workflow files only) and SonarCloud automatic analysis run on pull requests, configured outside the repository.
+- The repository's workflows run no dependency-vulnerability scan, SAST tool or secret scan on pull requests; CodeQL (workflow files only) and SonarCloud automatic analysis run on pull requests, and GitHub secret scanning with push protection is enabled, all configured outside the repository.
 - Security fixes follow the supported-versions rules of the organisation's security policy; older releases may not receive them.
