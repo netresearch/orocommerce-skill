@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-behat-debugging
 description: "Use when a Behat scenario in Oro Commerce 6.1 fails, hangs or flakes — element not found, intermittent runs, AJAX races, waitForAjax with fetch/XHR, step discovery (`-dl`/`-di`), snippets, verbosity, ScreenshotTrait, `And I wait for action` blocking CI, var/log forensics for hidden 500s, Xdebug across split CLI + PHP-FPM. Also without the word \"behat\": step definitions, feature files, Mink, Gherkin."
 ---

@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
+
+datagrids:
+    acme-blog-posts-grid:
+        source:
+            type: orm
+            query:
+                from:
+                    - {table: Acme\Bundle\BlogBundle\Entity\Post, alias: d}
+        sorters:
+            columns:
+                subject:
+                    data_name: post.subject
+        filters:
+            columns:
+                subject:
+                    type: string
+                    data_name: post.subject

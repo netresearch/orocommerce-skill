@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Functional Test — Grid Testing
 
 Datagrids in Oro are rendered server-side as JSON and hydrated client-side. The test framework exposes `requestGrid()` on the browser client so tests can hit grids by name, apply filters, and assert on rows without parsing HTML.

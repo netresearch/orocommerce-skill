@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
+
+datagrids:
+    acme-blog-posts-grid:
+        source:
+            type: orm
+            query:
+                from:
+                    - table: 'Acme\Bundle\BlogBundle\Entity\Post'
+                      alias: 'd'
+                join:
+                    left:
+                        - {join: d.author, alias: "a"}
+        filters:
+            columns:
+                subject:
+                    data_name: "d.subject"
+                author:
+                    data_name: 'a.name'

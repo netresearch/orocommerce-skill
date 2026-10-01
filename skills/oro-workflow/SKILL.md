@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-workflow
 description: "Use when creating OroCommerce v6.1 approval workflows, customizing checkout flow, defining workflow steps and transitions, configuring transition conditions and actions, setting up operations, or working with workflow scopes. Relevant when the user mentions 'workflow', 'checkout customization', 'approval process', 'state machine', 'transitions', 'operations.yml', 'workflows.yml', or any OroCommerce business process automation."
 ---
@@ -99,6 +101,7 @@ workflows:
 2. **Import path correctness**: Reference the original workflow name exactly. Typos silently fail without error.
 
 3. **Condition syntax**: Conditions use `@` prefix for functions and `$` prefix for attributes. Missing either causes parsing errors:
+
    ```yaml
    - '@eq': [$is_manager, true]  # Correct
    - 'eq': [$is_manager, true]   # Wrong — no @ prefix

@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Xdebug Split-Process Debugging
 
 The Behat runner and the application under test are two PHP processes. To step through both test code and application code in one run you need two debug targets. This reference walks through the setup.

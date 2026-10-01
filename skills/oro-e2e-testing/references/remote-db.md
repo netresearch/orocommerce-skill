@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Remote DB Access for Fixture-Loading E2E
 
 When you run `php bin/behat --skip-isolators-but-load-fixtures`, the fixture-loader isolator stays active and tries to connect to the **remote application's database** from your local machine to seed Alice fixtures. This needs two things in sync: a DSN in a local env file, and local source code whose migrations match the deployed version.

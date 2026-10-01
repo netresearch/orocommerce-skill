@@ -1,9 +1,14 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # OroCommerce v6.1 Datagrid Column & Filter Types Reference
 
 ## Column Types
 
 ### string
+
 Basic text rendering. No special formatting.
+
 ```yaml
 columns:
     title:
@@ -12,7 +17,9 @@ columns:
 ```
 
 ### integer
+
 Numeric integers. Right-aligned by default.
+
 ```yaml
 columns:
     count:
@@ -21,7 +28,9 @@ columns:
 ```
 
 ### boolean
+
 True/false rendered as checkmark (✓) or X.
+
 ```yaml
 columns:
     active:
@@ -30,7 +39,9 @@ columns:
 ```
 
 ### date
+
 Dates in YYYY-MM-DD format. Requires DateTime entity property.
+
 ```yaml
 columns:
     createdAt:
@@ -40,7 +51,9 @@ columns:
 ```
 
 ### datetime
+
 Full timestamp YYYY-MM-DD HH:MM:SS.
+
 ```yaml
 columns:
     updatedAt:
@@ -50,7 +63,9 @@ columns:
 ```
 
 ### decimal
+
 Floating-point with configurable precision.
+
 ```yaml
 columns:
     amount:
@@ -60,7 +75,9 @@ columns:
 ```
 
 ### percent
+
 Percentage display (value rendered as %).
+
 ```yaml
 columns:
     completion:
@@ -69,7 +86,9 @@ columns:
 ```
 
 ### currency
+
 Formatted with currency symbol (USD $, EUR €, etc.). Requires `currency_code` option.
+
 ```yaml
 columns:
     price:
@@ -80,7 +99,9 @@ columns:
 ```
 
 ### html
+
 Raw HTML rendering. **Use sparingly & never with user input.**
+
 ```yaml
 columns:
     description:
@@ -90,7 +111,9 @@ columns:
 ```
 
 ### link
+
 Hyperlink. Requires `route` or `url` option.
+
 ```yaml
 columns:
     document_link:
@@ -102,7 +125,9 @@ columns:
 ```
 
 ### twig
+
 Render column value via Twig template.
+
 ```yaml
 columns:
     status_badge:
@@ -115,7 +140,9 @@ columns:
 ```
 
 ### phone
+
 Phone number formatting with country code detection.
+
 ```yaml
 columns:
     phone:
@@ -124,7 +151,9 @@ columns:
 ```
 
 ### image
+
 Display image thumbnail.
+
 ```yaml
 columns:
     thumbnail:
@@ -135,7 +164,9 @@ columns:
 ```
 
 ### color
+
 Display a color swatch.
+
 ```yaml
 columns:
     color:
@@ -148,7 +179,9 @@ columns:
 ## Filter Types
 
 ### string
+
 Text search. Case-insensitive substring match.
+
 ```yaml
 filters:
     columns:
@@ -159,7 +192,9 @@ filters:
 ```
 
 ### integer
+
 Filter by exact integer or range.
+
 ```yaml
 filters:
     columns:
@@ -169,7 +204,9 @@ filters:
 ```
 
 ### boolean
+
 Filter by true/false.
+
 ```yaml
 filters:
     columns:
@@ -179,7 +216,9 @@ filters:
 ```
 
 ### date
+
 Date range filter (from–to).
+
 ```yaml
 filters:
     columns:
@@ -189,7 +228,9 @@ filters:
 ```
 
 ### datetime
+
 Datetime range filter.
+
 ```yaml
 filters:
     columns:
@@ -199,7 +240,9 @@ filters:
 ```
 
 ### decimal
+
 Decimal range filter.
+
 ```yaml
 filters:
     columns:
@@ -209,7 +252,9 @@ filters:
 ```
 
 ### entity
+
 Filter by related entity. Requires `field_options`.
+
 ```yaml
 filters:
     columns:
@@ -224,7 +269,9 @@ filters:
 ```
 
 ### choice
+
 Dropdown filter with predefined options.
+
 ```yaml
 filters:
     columns:
@@ -240,7 +287,9 @@ filters:
 ```
 
 ### multiselect
+
 Multi-select filter. Returns items matching ANY selected value.
+
 ```yaml
 filters:
     columns:
@@ -256,7 +305,9 @@ filters:
 ```
 
 ### exclusion
+
 Special filter for excluding specific items. Rarely used.
+
 ```yaml
 filters:
     columns:
@@ -270,19 +321,25 @@ filters:
 ## Filter Options Reference
 
 ### data_name (Required)
+
 The entity property path for filtering. Must match query alias.
+
 ```yaml
 data_name: d.subject
 ```
 
 ### label (Optional)
+
 Filter display label. Defaults to property name.
+
 ```yaml
 label: Document Subject
 ```
 
 ### field_options (Optional)
+
 Symfony form field options.
+
 ```yaml
 field_options:
     class: Entity\Class
@@ -292,19 +349,25 @@ field_options:
 ```
 
 ### operator (Optional)
+
 Comparison operator. Default: `=` for most, `LIKE` for strings.
+
 ```yaml
 operator: LIKE
 ```
 
 ### case_insensitive (Optional)
+
 For string filters. Default: true.
+
 ```yaml
 case_insensitive: true
 ```
 
 ### renderable (Optional)
+
 Show filter in UI. Default: true.
+
 ```yaml
 renderable: true
 ```
@@ -314,55 +377,73 @@ renderable: true
 ## Common Column Options
 
 ### label (Required)
+
 Column header text.
+
 ```yaml
 label: Document Subject
 ```
 
 ### data_name (Optional)
+
 Property path. Auto-inferred from column key if omitted.
+
 ```yaml
 data_name: d.subject
 ```
 
 ### type (Optional)
+
 Column type. Default: string.
+
 ```yaml
 type: decimal
 ```
 
 ### frontend_type (Optional)
+
 Explicit frontend type override.
+
 ```yaml
 frontend_type: date
 ```
 
 ### editable (Optional)
+
 Enable inline editing on this column.
+
 ```yaml
 editable: true
 ```
 
 ### sortable (Optional)
+
 Enable sorting. Requires entry in `sorters` section.
+
 ```yaml
 sortable: true
 ```
 
 ### renderable (Optional)
+
 Show/hide column. Default: true.
+
 ```yaml
 renderable: true
 ```
 
 ### width (Optional for image/color)
+
 CSS width. Example: "100px".
+
 ```yaml
 width: 100px
 ```
 
 ### align (Optional)
+
 Text alignment: left, center, right. Default: left.
+
 ```yaml
 align: right
 ```

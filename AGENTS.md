@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 <!-- Managed by agent: keep sections and order; edit content, not structure. -->
 
 # AGENTS.md — OroCommerce Skills Plugin
@@ -43,10 +46,11 @@
 |---------|---------|
 | `claude plugin validate` | Validate plugin.json and skill structure |
 | `make verify-harness` | Verify harness consistency |
+| `php tests/check-datagrid-aliases-test.php` | Behavioural tests for `scripts/check-datagrid-aliases.php` (CI: `.github/workflows/tests.yml`) |
 
 ## Rules
 
-- **SKILL.md**: YAML frontmatter (`name`, `description`, `version`), **max 500 words** (`wc -w`, frontmatter included — what the shared validator counts, not lines), overflow in `references/`
+- **SKILL.md**: YAML frontmatter (`name`, `description`, `version`), body **under 500 lines** (the shared validator counts body lines after the frontmatter; it fails past 500 and warns past 300), overflow in `references/`
 - **Code examples**: OroCommerce v6.1 only — PHP 8 attributes, `#[\Override]`, not annotations
 - **Licensing**: Code = MIT, content = CC-BY-SA-4.0, entity = `Netresearch DTT GmbH`
 - **Commits**: Conventional commits format
@@ -56,7 +60,7 @@
 
 - [ ] SKILL.md files have valid YAML frontmatter
 - [ ] plugin.json lists all skill directories
-- [ ] No SKILL.md exceeds 500 **words** (`wc -w skills/*/SKILL.md`)
+- [ ] No SKILL.md body exceeds 500 lines (`validate-skill.sh` from netresearch/skill-repo-skill)
 - [ ] Code examples use v6.1 patterns
 - [ ] Evals cover changed skills
 - [ ] No project-specific leakage (vendor names, internal hostnames, ticket IDs) in public skills
@@ -64,4 +68,6 @@
 ## References
 
 - [Architecture](docs/ARCHITECTURE.md)
+- [Security assurance case](docs/SECURITY-ASSURANCE.md)
+- [Contributing](CONTRIBUTING.md) — tests, dependencies, governance and the checks on pull requests
 - [Active Plans](docs/exec-plans/active/)

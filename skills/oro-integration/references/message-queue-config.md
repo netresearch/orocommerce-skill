@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Message Queue Configuration Reference — OroCommerce v6.1
 
 Complete configuration guide for the Oro message queue system in v6.1. Covers transport setup, consumer options, and advanced features.
@@ -22,17 +25,20 @@ oro_message_queue:
 ```
 
 **Parameters:**
+
 - `connection` — Doctrine connection to use. Defaults to `default`.
 - `table` — Table name for message storage. Defaults to `oro_message_queue`.
 - `polling_interval` — How often (ms) the consumer checks for messages. Lower = more responsive, higher = lower CPU. Default is 1000ms.
 - `time_to_live` — Seconds before a message expires. Default 0 = no expiration. Expired messages are automatically purged.
 
 **Pros:**
+
 - No external broker required
 - Works with any Doctrine-supported database
 - Simple setup
 
 **Cons:**
+
 - Polling-based (latency ~1 second)
 - Not suitable for high-volume production (> 100 msg/sec)
 - Database load increases with message volume
@@ -60,6 +66,7 @@ oro_message_queue:
 ```
 
 **Parameters:**
+
 - `host` — RabbitMQ server hostname
 - `port` — RabbitMQ port (5672 for non-SSL, 5671 for SSL)
 - `user` / `password` — RabbitMQ authentication credentials
@@ -69,11 +76,13 @@ oro_message_queue:
 - `ssl_options` — SSL certificate and verification settings
 
 **Pros:**
+
 - Push-based (no polling)
 - Efficient for high-volume messaging
 - Distributed processing
 
 **Cons:**
+
 - Requires external RabbitMQ broker
 - More complex infrastructure
 
@@ -119,6 +128,7 @@ OroCommerce registers processors via service tags, and topics are auto-discovere
 ### Topic Naming Convention
 
 Use lowercase, dot-separated names:
+
 - `acme_demo.document.process`
 - `oro_notification.send_notification`
 - `my_integration.sync_products`
@@ -137,6 +147,7 @@ oro_message_queue:
 ```
 
 **Parameters:**
+
 - `time_limit` — Consumer exits after N seconds. Default 900 (15 min). Use with cron to keep consumer fresh.
 - `memory_limit` — Consumer exits if memory usage exceeds N MB. Prevents memory leaks. Default 1024 MB.
 - `batch_size` — How many messages to process before committing (if broker supports). Default 10.
@@ -298,6 +309,7 @@ The sync transport processes messages inline without queueing. Useful for unit/i
 ### DBAL Tuning
 
 For high-volume DBAL usage:
+
 - Increase `polling_interval` to reduce database load (trade-off: higher latency)
 - Add database indexes on `created_at` and `processed` columns
 - Periodically purge old messages (set `time_to_live`)
@@ -306,6 +318,7 @@ For high-volume DBAL usage:
 ### AMQP Tuning
 
 For RabbitMQ:
+
 - Configure multiple consumer instances (parallel processing)
 - Use prefetch limits to balance load across consumers
 - Monitor broker memory and disk usage
@@ -354,6 +367,7 @@ Use environment variables for sensitive data (host, credentials).
 ### Consumer Hangs
 
 If the consumer process doesn't respond:
+
 ```bash
 pkill -f 'oro:message-queue:consume'
 ```
@@ -370,6 +384,7 @@ Check for deadlocked processors. Review logs for errors.
 ### Queue Backlog
 
 If messages accumulate faster than they're processed:
+
 - Increase `batch_size` in consumer config
 - Add more consumer instances (parallel processing)
 - Optimize processor logic (reduce processing time)
@@ -378,6 +393,7 @@ If messages accumulate faster than they're processed:
 ### Memory Leaks
 
 If consumer memory grows unbounded:
+
 - Set `memory_limit` to force restarts
 - Review processor code for resource leaks (unclosed connections, etc.)
 - Use cron-based restart strategy (restart consumer every 15 min)

@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # GitLab CI: the Gap Fill
 
 Oro does not publicly support GitLab CI ([oroinc/platform#954](https://github.com/oroinc/platform/issues/954), open since 2.x). This document is the community-developed pattern set that makes it work anyway.

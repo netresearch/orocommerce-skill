@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-functional-testing
 description: "Use when writing or debugging PHPUnit functional tests for Oro Commerce 6.1 — anything extending WebTestCase: controllers, REST API, console commands (runCommand), datagrids (requestGrid), ACL/403 flows, alice fixtures. Triggers on initClient, loadFixtures, getReference, generateBasicAuthHeader, generateApiAuthHeader, getJsonResponseContent; on @dbIsolationPerTest, @outputBuffering, @depends; on test-env setup (oro:install --env=test, install_options, .env-app.test.local, ORO_DB_DSN, --user-email ignored); on state bleed between methods or fixtures, EM clearing, InitialFixtureInterface, unit-vs-functional splits."
 ---

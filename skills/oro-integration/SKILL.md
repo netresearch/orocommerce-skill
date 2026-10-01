@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-integration
 description: "Use when building OroCommerce v6.1 integrations — creating import/export processors, setting up message queue consumers/producers, building integration channels and transports, configuring cron jobs, handling webhooks, or connecting Oro to external systems (ERP, PIM, payment, shipping). Relevant when the user mentions 'import', 'export', 'message queue', 'consumer', 'producer', 'integration channel', 'connector', 'cron job', 'webhook', 'async processing', or any OroCommerce integration task."
 ---

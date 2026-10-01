@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Watch Mode
 
 Watch mode turns a Behat run into an interactive development loop: each step is numbered, errors pause the run, and you can restart from any line without re-executing preceding setup. Useful for authoring new feature files against a real remote app, where replaying all setup steps for each iteration is slow.

@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Self-Healing Behat Tests
 
 Oro's Behat framework ships a healer pipeline that intercepts step failures and attempts recovery before the scenario is marked failed. Two built-in healers exist; a tagged-service mechanism lets you add more.

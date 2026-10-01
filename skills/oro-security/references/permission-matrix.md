@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Permission and Ownership Matrix — OroCommerce v6.1
 
 ## Permission Types
@@ -199,10 +202,12 @@ acme_document_price_view:
 ```
 
 Resolution:
+
 1. User must have `acme_document_view` (entity-level)
 2. If accessing the `price` field, must also have `acme_document_price_view`
 
 Example:
+
 ```twig
 {% if attribute_is_granted('VIEW', document) %}
     <!-- Can view the document -->
@@ -220,6 +225,7 @@ Example:
 ### Issue: User Can View But Not Edit
 
 Check:
+
 1. Entity ownership type matches user's organization/business unit
 2. Role has EDIT permission granted in the UI
 3. Custom access rules don't block EDIT
@@ -228,6 +234,7 @@ Check:
 ### Issue: ACL Grants Permission But Query Returns Empty
 
 Check:
+
 1. `$aclHelper->apply($qb)` is called on the query builder
 2. Entity has proper ownership field populated
 3. User's organization/business unit matches entity
@@ -235,6 +242,7 @@ Check:
 ### Issue: Permission Matrix Shows Granted But isGranted() Returns False
 
 Check:
+
 1. Correct permission type (VIEW vs EDIT vs DELETE)
 2. Correct object passed to `isGranted()`
 3. User is authenticated (not Anonymous)

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
+
 # --- Agent Harness Targets ---
 # These targets support harness verification and bootstrapping.
 # See AGENTS.md for available commands.

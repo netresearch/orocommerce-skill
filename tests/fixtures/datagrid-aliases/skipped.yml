@@ -1,0 +1,44 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
+
+# Grids the checker skips rather than guesses about.
+datagrids:
+    acme-child-grid:
+        extends: acme-parent-grid
+        source:
+            query:
+                join:
+                    left:
+                        - {join: parent.tags, alias: t}
+        filters:
+            columns:
+                subject:
+                    data_name: parent.subject
+    acme-legacy-grid:
+        extended_from: [acme-parent-grid]
+        source:
+            query:
+                join:
+                    left:
+                        - {join: parent.tags, alias: t}
+        sorters:
+            columns:
+                subject:
+                    data_name: parent.subject
+    acme-array-grid:
+        source:
+            type: array
+        filters:
+            columns:
+                subject:
+                    data_name: row.subject
+    acme-plain-field-grid:
+        source:
+            type: orm
+            query:
+                from:
+                    - {table: Acme\Bundle\BlogBundle\Entity\Post, alias: d}
+        filters:
+            columns:
+                subject:
+                    data_name: subject

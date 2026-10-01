@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-e2e-testing
 description: "Use when running Behat against a DEPLOYED Oro Commerce 6.1 application (staging, QA, prod-clone, prod) rather than a local dev/CI stack: --skip-isolators and --skip-isolators-but-load-fixtures, ORO_DB_DSN placement (.app-env.local vs .env-app.test.local), matching local migrations to the deployed tag, oro/e2e-tests, .behat-secrets.yml and Secret placeholders, ChromeDriver url-base/port and Mink 404s, watch mode, Reload Page and OpenAI Healers, HealerInterface with the oro_test.behat.healer tag. Skip for local-only Behat, PHPUnit, k6, or CI on ephemeral containers."
 ---

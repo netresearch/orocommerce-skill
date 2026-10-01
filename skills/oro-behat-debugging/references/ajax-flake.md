@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # AJAX Flakiness Root-Causing
 
 "Flaky test" is almost never a test framework problem. It's a race condition the test is silent about. Treat every intermittent failure as a bug to root-cause, not noise to retry around.
@@ -55,11 +58,13 @@ Classic trigger a preserved Underscore template uses bare `<%= varName %>` inste
 
 1. Confirm the hang isn't a real pending XHR: in a debug step, dump `window.jQuery.active` during the wait. Zero = no real AJAX in flight; the blocker is one of the other `waitForAjax` predicates.
 2. Capture Chrome browser console for the session. Add to `behat.yml` under the session's chromeOptions:
+
    ```yaml
    extra_capabilities:
        'goog:loggingPrefs':
            browser: ALL
    ```
+
 3. Add a one-shot `@AfterStep` hook that dumps `$this->getSession()->getDriver()->getWebDriverSession()->log(['type' => 'browser'])` to a JSON file when the hang triggers. The ReferenceError (or TypeError, or whatever silent throw) is in there with file + line pointing at the compiled template chunk.
 4. Follow the file reference back to the source `.html` template or `.js` view — the chunk filename usually carries the bundle's public-path segment.
 5. **Revert the `goog:loggingPrefs` capability and the probe hook before committing.** They are diagnostic-only; leaving `browser: ALL` in CI capabilities bloats every test run's log payload.

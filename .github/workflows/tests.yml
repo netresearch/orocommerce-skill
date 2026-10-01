@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
+
+name: Skill Tests
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  tests:
+    permissions:
+      contents: read
+    uses: netresearch/skill-repo-skill/.github/workflows/tests.yml@main
+    with:
+      # The entrypoint only; tests/fixtures/ holds input files, not tests.
+      php_glob: tests/*-test.php

@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Secret Management for E2E Tests
 
 E2e tests authenticate against real applications, which means real credentials have to reach Behat somehow. Oro's e2e framework reads them from a YAML file at the application root, never from behat.yml itself.

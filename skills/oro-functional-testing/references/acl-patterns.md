@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Functional Test — ACL Patterns
 
 ACL tests verify that a user without a permission receives a 403 instead of the resource. Oro uses different assertion helpers for HTML and JSON responses; pick the one that matches the endpoint's content type or the failure message will be misleading.

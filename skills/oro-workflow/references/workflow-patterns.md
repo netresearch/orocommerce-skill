@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Workflow Patterns Reference
 
 ## Workflow Attributes (Variables)
@@ -96,6 +99,7 @@ Register the subscriber as a tagged service (`kernel.event_subscriber`).
 ## Workflow Scopes and Activation
 
 Scope determines when a workflow is active. Scopes include `default`, `frontend`, and custom. A workflow is active on an entity if:
+
 1. Its entity matches
 2. Its scope matches the current context
 3. No other active workflow exists on the same entity
@@ -154,6 +158,7 @@ actions:
 ## Testing and Debugging
 
 Use the OroWorkflow UI in the backend to visualize workflow transitions. For debugging:
+
 - Check `workflow_item` and `workflow_step` tables in the database
 - Use `WorkflowManager::getWorkflowItem()` to inspect current state
 - Enable query logging to see how workflows filter entities
@@ -170,6 +175,7 @@ if ($workflowItem?->getCurrentStep()?->getName() === 'approved') { ... }
 - **Form type instantiation**: Form types in transitions must be fully qualified class names and instantiable without constructor arguments (or with service injection via DI).
 - **Query building**: Workflows don't filter entities by their step automatically. Use `WorkflowManager` to check step programmatically.
 - **Cache invalidation**: After modifying `workflows.yml`, clear the cache:
+
   ```bash
   bin/console cache:clear
   bin/console oro:workflow:definitions:load

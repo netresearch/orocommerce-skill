@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: Netresearch DTT GmbH
 {
   // Same rule set the shared validate.yml injects when a repo ships no config
   // (netresearch/skill-repo-skill, "Markdown lint defaults"). Without this file

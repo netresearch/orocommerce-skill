@@ -1,4 +1,6 @@
 ---
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
 name: oro-api
 description: "Use when exposing OroCommerce v6.1 entities via REST API, configuring api.yml or api_frontend.yml, creating custom API processors, setting up filters/sorters/subresources, or working with JSON:API endpoints. Relevant when the user mentions 'API endpoint', 'expose entity via API', 'api.yml', 'REST API', 'JSON:API', 'storefront API', or 'API processor'."
 ---

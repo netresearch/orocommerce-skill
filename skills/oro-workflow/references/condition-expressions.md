@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Workflow Condition and Action Expressions — OroCommerce v6.1
 
 This reference covers all built-in expression functions available in workflow conditions (`preconditions`, `postconditions`, `condition` on transitions) and actions in workflow definitions.

@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # API Configuration Patterns (v6.1)
 
 Detailed configuration examples for OroCommerce REST API development. See the main `SKILL.md` for core concepts and quick-start patterns.
@@ -19,6 +22,7 @@ api:
 ```
 
 **Policies:**
+
 - `none` (default) — Include all fields; exclude listed ones
 - `all` — Exclude all fields; include listed ones
 - `custom_fields` — Exclude dynamic custom fields; include entity properties

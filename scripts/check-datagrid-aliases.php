@@ -22,7 +22,11 @@ declare(strict_types=1);
  * Usage:
  *   php scripts/check-datagrid-aliases.php <datagrids.yml-file-or-directory>
  *
- * Exit codes: 0 = no mismatches, 1 = mismatches found, 2 = usage/input error.
+ * Exit codes: 0 = no mismatches (or --help), 1 = mismatches found,
+ * 2 = usage/input error.
+ *
+ * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: Netresearch DTT GmbH
  */
 
 function fail(string $message): void
@@ -57,6 +61,33 @@ function sectionOf(array $path): ?string
 }
 
 /**
+ * Removes a trailing YAML comment: a `#` after whitespace, outside quotes.
+ */
+function stripComment(string $line): string
+{
+    $quote = null;
+    $length = strlen($line);
+    for ($i = 0; $i < $length; $i++) {
+        $char = $line[$i];
+        if ($quote !== null) {
+            if ($char === $quote) {
+                $quote = null;
+            }
+            continue;
+        }
+        if ($char === '"' || $char === "'") {
+            $quote = $char;
+            continue;
+        }
+        if ($char === '#' && $i > 0 && ($line[$i - 1] === ' ' || $line[$i - 1] === "\t")) {
+            return rtrim(substr($line, 0, $i));
+        }
+    }
+
+    return $line;
+}
+
+/**
  * @param array<string, array<string, true>> $gridAliases
  */
 function recordAliasesFromValue(string $value, string $grid, array &$gridAliases): void
@@ -73,7 +104,8 @@ function recordAliasesFromValue(string $value, string $grid, array &$gridAliases
  */
 function checkFile(string $file): int
 {
-    $lines = file($file, FILE_IGNORE_NEW_LINES);
+    // Checked first so an unreadable file gets one line, not a PHP warning too.
+    $lines = is_readable($file) ? file($file, FILE_IGNORE_NEW_LINES) : false;
     if ($lines === false) {
         fail("Could not read: {$file}");
     }
@@ -96,6 +128,8 @@ function checkFile(string $file): int
         if ($trimmed === '' || str_starts_with($trimmed, '#')) {
             continue;
         }
+        // "alias: d # posts" declares "d", not "d # posts".
+        $rawLine = stripComment($rawLine);
 
         $indent = strlen($rawLine) - strlen(ltrim($rawLine, ' '));
 
@@ -203,13 +237,18 @@ function findDatagridFiles(string $path): array
     }
 
     $files = [];
-    $iterator = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
-    );
-    foreach ($iterator as $file) {
-        if ($file->getFilename() === 'datagrids.yml') {
-            $files[] = $file->getPathname();
+    try {
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
+        );
+        foreach ($iterator as $file) {
+            if ($file->getFilename() === 'datagrids.yml') {
+                $files[] = $file->getPathname();
+            }
         }
+    } catch (UnexpectedValueException $e) {
+        // A directory that cannot be opened is an input error (exit 2), not a crash.
+        fail("Could not read directory under {$path}: " . $e->getMessage());
     }
     sort($files);
 
@@ -218,9 +257,16 @@ function findDatagridFiles(string $path): array
 
 function main(array $argv): int
 {
+    $usage = 'Usage: check-datagrid-aliases.php <datagrids.yml-file-or-directory>';
     $path = $argv[1] ?? null;
-    if ($path === null || $path === '-h' || $path === '--help') {
-        fail('Usage: check-datagrid-aliases.php <datagrids.yml-file-or-directory>');
+    if ($path === '-h' || $path === '--help') {
+        // Help was asked for, so it is output, not a usage error.
+        fwrite(STDOUT, $usage . "\n");
+
+        return 0;
+    }
+    if ($path === null) {
+        fail($usage);
     }
     if (!file_exists($path)) {
         fail("Path not found: {$path}");

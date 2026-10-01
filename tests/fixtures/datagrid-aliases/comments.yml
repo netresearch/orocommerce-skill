@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Netresearch DTT GmbH
+
+# Trailing comments are not part of the value.
+datagrids:
+    acme-blog-posts-grid:
+        source:
+            type: orm
+            query:
+                from:
+                    - {table: Acme\Bundle\BlogBundle\Entity\Post, alias: d} # posts
+                join:
+                    left:
+                        - join: d.author
+                          alias: a # the author
+        sorters:
+            columns:
+                author:
+                    data_name: a.name
+                subject:
+                    data_name: d.subject
+        filters:
+            columns:
+                subject:
+                    data_name: x.subject # undeclared

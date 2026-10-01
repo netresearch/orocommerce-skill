@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Removing Extend Fields and Attributes
 
 Oro has **no stock hard-removal** for extend fields. Everything below is the pattern Oro core itself uses, plus the cleanup steps core omits.

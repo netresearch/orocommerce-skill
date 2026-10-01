@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # Running k6 via the grafana/k6 Docker Image
 
 The `grafana/k6` image is a tiny Alpine container shipping the `k6` binary at `/usr/bin/k6` as entrypoint. Any `k6` subcommand (`run`, `archive`, `inspect`, `cloud`) works as the first argument.
@@ -33,12 +36,14 @@ docker run --rm --network host -u "$(id -u):$(id -g)" \
 
 - **Host network (shown above)** — simplest when the target is on `localhost` or in `/etc/hosts`. Only works on Linux; on macOS/Windows Docker Desktop, `--network host` is a no-op.
 - **Attached to a compose network** — use when the target lives in a compose stack:
+
   ```bash
   docker run --rm --network oro_default \
     -v "${PWD}/performance:/home/k6/performance" -w /home/k6/performance \
     -u "$(id -u):$(id -g)" grafana/k6:latest run \
     -e BASE_URL="http://nginx" ... scripts/storefrontTests.js
   ```
+
   The hostname (`nginx`) must be a compose service on `oro_default`.
 - **`host.docker.internal`** — on macOS/Windows Docker Desktop, use `BASE_URL="http://host.docker.internal"` instead of `localhost` with default bridge network. On Linux, add `--add-host=host.docker.internal:host-gateway`.
 

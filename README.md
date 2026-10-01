@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-FileCopyrightText: Netresearch DTT GmbH -->
+
 # OroCommerce Skills for Claude Code
 
 A Claude Code plugin providing 14 domain-specific skills for OroCommerce v6.1 development. Each skill delivers accurate, version-pinned guidance for common development tasks — from entity creation and datagrid configuration to API design, workflow setup, and security hardening. Built for Oro-experienced developers who need correctness and awareness of non-obvious pitfalls rather than introductory tutorials.
@@ -26,7 +29,8 @@ A Claude Code plugin providing 14 domain-specific skills for OroCommerce v6.1 de
 ### Claude Code Marketplace
 
 ```bash
-claude plugin install netresearch/orocommerce-skills
+/plugin marketplace add netresearch/claude-code-marketplace
+/plugin install orocommerce@netresearch-claude-code-marketplace
 ```
 
 ### Manual Installation
@@ -34,13 +38,18 @@ claude plugin install netresearch/orocommerce-skills
 Clone this repository into your Claude Code plugins directory:
 
 ```bash
-git clone https://github.com/netresearch/orocommerce-skills.git ~/.claude/plugins/orocommerce-skills
+git clone https://github.com/netresearch/orocommerce-skill.git ~/.claude/plugins/orocommerce-skills
 ```
 
 ### Composer (for OroCommerce projects)
 
+The package is not published on Packagist, so add this repository as a VCS repository first. The skills are registered by the `netresearch/composer-agent-skill-plugin` Composer plugin, which must be allowed and asked to trust the package:
+
 ```bash
-composer require netresearch/orocommerce-skills
+composer config repositories.orocommerce-skill vcs https://github.com/netresearch/orocommerce-skill
+composer config allow-plugins.netresearch/composer-agent-skill-plugin true
+composer require netresearch/orocommerce-skill
+composer skills:trust netresearch/orocommerce-skill
 ```
 
 ## Related resources
