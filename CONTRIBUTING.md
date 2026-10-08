@@ -40,7 +40,7 @@ New or changed behaviour of a script needs a test case in the same pull request.
 - **Skills:** none. The skill content is Markdown; `scripts/check-datagrid-aliases.php` uses only the PHP standard library.
 - **Composer distribution:** `composer.json` requires `netresearch/composer-agent-skill-plugin` (constraint `*`), which registers the skills in a consumer project. No `composer.lock` is committed (`.gitignore`); the consumer's own lock file pins the version.
 - **Development tools:** the pre-commit hooks in `.pre-commit-config.yaml`, each pinned to a release tag with `rev:`. pre-commit downloads them from their GitHub repositories.
-- **CI:** the workflows call reusable workflows of netresearch/skill-repo-skill and netresearch/.github at `@main`; those reusables pin the actions they use to commit SHAs.
+- **CI:** the workflows call reusable workflows of netresearch/skill-repo-skill, netresearch/.github and netresearch/typo3-ci-workflows at `@main`; those reusables pin the actions they use to commit SHAs.
 - **Updates:** Renovate (`renovate.json`, organisation preset `netresearch/renovate-config`, with the pre-commit manager enabled) opens pull requests for new hook versions. They pass the same checks as any other pull request.
 - **Selection:** a new dependency is added in a pull request and passes the checks listed below. Its licence must be OSI-approved and compatible with the project licence, as the organisation's [security policy](https://github.com/netresearch/.github/blob/main/SECURITY.md#handling-of-dependency-and-code-analysis-findings) requires.
 
@@ -61,6 +61,9 @@ Checks that run on every pull request to `main`:
 - Skill Validation (`validate.yml`): skill structure, plugin manifest sync, markdownlint, yamllint, actionlint, JSON syntax, plugin and SKILL.md version parity, ShellCheck at severity style, ruff and checkpoint schemas.
 - Eval Validation (`eval-validate.yml`), Harness Verification (`harness-verify.yml`) and Skill Tests (`tests.yml`).
 - CodeQL analysis of the workflow files (`Analyze (actions)`), configured in GitHub code scanning rather than in a workflow file here, SonarCloud Code Analysis (SonarCloud automatic analysis, also configured outside this repository), the DCO check and the CodeRabbit review status. Code scanning reports the CodeQL and SonarCloud results again as the `CodeQL` and `SonarCloud` check runs. GitHub secret scanning with push protection is enabled as a repository setting.
-- Auto-merge dependency PRs (`auto-merge-deps.yml`), skipped unless Renovate or Dependabot opened the pull request.
+- Security (`security.yml`): Betterleaks secret scanning of the git history, zizmor on the workflow files, Dependency Review, and Composer Audit with Opengrep SAST through netresearch/typo3-ci-workflows. Dependency Review runs on pull requests only. The organisation's [static analysis rule](https://github.com/netresearch/.github/blob/main/SECURITY.md#static-analysis-sast) applies to the Opengrep findings.
+- Lint (`lint.yml`), a second call of the Skill Validation workflow next to `validate.yml`, and Template drift (`check-template-drift.yml`), which fails when a file governed by the organisation's skill template differs from it. `eval-validate.yml` and `harness-verify.yml` are listed under `intentional-drift` in `.github/template.yaml` and keep their own job names, because those are required status checks.
+- Labeler (`labeler.yml`), which applies the labels defined in `.github/labeler.yml` to the pull request. It runs on `pull_request_target` and does not check out the pull request code.
+- Auto-merge dependency PRs (`auto-merge-deps.yml`), skipped unless Renovate or Dependabot opened the pull request, and for pull requests labelled `deps-major` or `deps-no-automerge`.
 
-The workflows in this repository run no dependency-vulnerability check, no Composer Audit, no other SAST tool and no secret scanner on pull requests; secret detection comes from GitHub secret scanning and push protection.
+OpenSSF Scorecard (`scorecard.yml`) runs on pushes to `main` and `master`, weekly and on manual dispatch, not on pull requests.
