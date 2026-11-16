@@ -9,9 +9,13 @@ on:
     branches: [main]
   merge_group:
 
+permissions: {}
+
 jobs:
   validate:
     uses: netresearch/skill-repo-skill/.github/workflows/validate.yml@main
+    permissions:
+      contents: read
     with:
       # The level the shellcheck pre-commit hook runs at by default.
       shellcheck-severity: style

@@ -9,6 +9,10 @@ on:
     branches: [main]
   merge_group:
 
+permissions: {}
+
 jobs:
   eval:
     uses: netresearch/skill-repo-skill/.github/workflows/eval-validate.yml@main
+    permissions:
+      contents: read
